@@ -1,4 +1,5 @@
-﻿using System;
+﻿using bonobo.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,8 @@ namespace bonobo
 		{
 			InitializeComponent();
 
-			MainPage = new bonobo.MainPage();
+            //the page that the app shows when launches
+            MainPage = new LoginPage();
 		}
 
 		protected override void OnStart ()
