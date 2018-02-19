@@ -38,8 +38,12 @@ namespace bonobo.Views
             User user = new User(Entry_Username.Text, Entry_Password.Text);
             if (user.CheckInformation())
             {
-                DisplayAlert("Login", "Login success.", "OK");
-                //makes sure that the code below won't be executed before the user presses 'OK'
+                //TODO: delete previously saved user; should happen on sign out procedure
+                App.UserDatabase.DeleteUser(0);
+                //save current logged user in local DB
+                App.UserDatabase.SaveUser(user);
+                //await makes sure that the code below won't be executed before the user presses 'OK'
+                DisplayAlert("Login", "Login success. Hi " + App.UserDatabase.GetUser().Username, "OK");
             }
             else
             {

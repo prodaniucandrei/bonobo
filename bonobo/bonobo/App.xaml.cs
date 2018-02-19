@@ -1,4 +1,5 @@
-﻿using bonobo.Views;
+﻿using bonobo.Data;
+using bonobo.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,11 @@ namespace bonobo
 {
 	public partial class App : Application
 	{
-		public App ()
+
+        static TokenDatabaseController tokenDatabase;
+        static UserDatabaseController userDatabase;
+
+        public App ()
 		{
 			InitializeComponent();
 
@@ -32,5 +37,31 @@ namespace bonobo
 		{
 			// Handle when your app resumes
 		}
-	}
+
+        //returns user DB controller
+        public static UserDatabaseController UserDatabase
+        {
+            get
+            {
+                if (userDatabase == null)
+                {
+                    userDatabase = new UserDatabaseController();
+                }
+                return userDatabase; 
+            }
+        }
+
+        //returns token DB controller
+        public static TokenDatabaseController TokenDatabase
+        {
+            get
+            {
+                if (tokenDatabase == null)
+                {
+                    tokenDatabase = new TokenDatabaseController();
+                }
+                return tokenDatabase;
+            }
+        }
+    }
 }
