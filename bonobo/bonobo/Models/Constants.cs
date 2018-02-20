@@ -14,5 +14,11 @@ namespace bonobo.Models
         public static Color MainTextColor = Color.FromRgb(146, 100, 93);
 
         public static int LoginIconHeight = 120; //for phone
+
+        //----------------Login------------------------------
+        public static string LoginURL = "https://test.com/api/Auth/Login";
+
+        //----------------Internet Connection----------------
+        public static string NoInternetText = "No Internet.";
     }
 }

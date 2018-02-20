@@ -26,6 +26,8 @@ namespace bonobo.Views
             Lbl_Password.TextColor = Constants.MainTextColor;
             ActivitySpinner.IsVisible = false;
             LoginIcon.HeightRequest = Constants.LoginIconHeight;
+            //check for internet connection 
+            App.StartCheckIfInternet(Lbl_NoInternet, this);
 
             //after the username is entered, the focus should be on the password entry field 
             Entry_Username.Completed += (s, e) => Entry_Password.Focus();
@@ -33,21 +35,27 @@ namespace bonobo.Views
             Entry_Password.Completed += (s, e) => SignInProcedure(s, e);
         }
 
-        void SignInProcedure(object sender, EventArgs e)
+        async void SignInProcedure(object sender, EventArgs e)
         {
             User user = new User(Entry_Username.Text, Entry_Password.Text);
             if (user.CheckInformation())
             {
-                //TODO: delete previously saved user; should happen on sign out procedure
-                App.UserDatabase.DeleteUser(0);
-                //save current logged user in local DB
-                App.UserDatabase.SaveUser(user);
-                //await makes sure that the code below won't be executed before the user presses 'OK'
-                DisplayAlert("Login", "Login success. Hi " + App.UserDatabase.GetUser().Username, "OK");
+                //TODO: check for InternetConnection before calling the webserver
+                //Login call
+                //var result = await App.RestService.Login(user);
+                //if(result.AccessToken != null)
+                {
+                    //TODO: delete previously saved user; should happen on sign out procedure
+                    App.UserDatabase.DeleteUser(0);
+                    //save current logged user in local DB
+                    App.UserDatabase.SaveUser(user);
+                    //await makes sure that the code below won't be executed before the user presses 'OK'
+                    await DisplayAlert("Login", "Login success. Hi " + App.UserDatabase.GetUser().Username, "OK");
+                }
             }
             else
             {
-                DisplayAlert("Login", "Login not correct: empty username or password.", "Ok");
+                await DisplayAlert("Login", "Login not correct: empty username or password.", "Ok");
             }
         }
 	}

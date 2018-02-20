@@ -14,6 +14,7 @@ namespace bonobo.Models
         public string AccessToken { get; set; }//token that the user gets from the server
         public string ErrorDescription { get; set; }//error from the server, if any
         public DateTime ExpireDate { get; set; }//date when token is no longer valid    
+        public int ExpireIn { get; set; }    
 
         public Token() { } //for the DB controller
     }
