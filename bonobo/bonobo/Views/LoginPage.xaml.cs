@@ -42,8 +42,8 @@ namespace bonobo.Views
             {
                 //TODO: check for InternetConnection before calling the webserver
                 //Login call
-                //var result = await App.RestService.Login(user);
-                //if(result.AccessToken != null)
+                var result = await App.RestService.Login(user);
+                if(result.AccessToken != null)
                 {
                     //TODO: delete previously saved user; should happen on sign out procedure
                     App.UserDatabase.DeleteUser(0);
@@ -52,6 +52,11 @@ namespace bonobo.Views
                     //await makes sure that the code below won't be executed before the user presses 'OK'
                     await DisplayAlert("Login", "Login success. Hi " + App.UserDatabase.GetUser().Username, "OK");
                 }
+                else
+                {
+                    await DisplayAlert("Login", "Login not successfull: server issue.", "Ok");
+                }
+
             }
             else
             {

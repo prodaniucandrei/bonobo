@@ -17,17 +17,19 @@ namespace bonobo.Data
         public RestService()
         {
             client = new HttpClient();
+            //maximum number of bytes to buffer when reading the content in the HTTP response message
             client.MaxResponseContentBufferSize = 256000;
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded' "));
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public async Task<Token> Login(User user)
         {
             var PostData = new List<KeyValuePair<string, string>>();
-            PostData.Add(new KeyValuePair<string, string>("GrantType", GrantType));
-            PostData.Add(new KeyValuePair<string, string>("username", user.Username));
-            PostData.Add(new KeyValuePair<string, string>("username", user.Password));
-            var content = new FormUrlEncodedContent(PostData);
+           // PostData.Add(new KeyValuePair<string, string>("GrantType", GrantType));
+            PostData.Add(new KeyValuePair<string, string>("Username", user.Username));
+            PostData.Add(new KeyValuePair<string, string>("Password", user.Password));
+            var json = JsonConvert.SerializeObject(PostData);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await PostResponseLogIn<Token>(Constants.LoginURL, content);
             DateTime dt = new DateTime();
             dt = DateTime.Today;
@@ -35,12 +37,23 @@ namespace bonobo.Data
             return response;
         }
 
-        public async Task<T> PostResponseLogIn<T>(string weburl, FormUrlEncodedContent content) where T : class
+        public async Task<T> PostResponseLogIn<T>(string weburl, StringContent content) where T : class
         {
-            var response = await client.PostAsync(weburl, content);
-            var jsonResult = response.Content.ReadAsStringAsync().Result;
-            var token = JsonConvert.DeserializeObject<T>(jsonResult);
-            return token;
+            HttpResponseMessage response = null;
+            var uri = new Uri(string.Format(weburl, string.Empty));
+            // send a POST request to the web service specified by the URI
+            response = await client.PostAsync(uri, content);
+            //check if response is successfull
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResult = response.Content.ReadAsStringAsync().Result;
+                var token = JsonConvert.DeserializeObject<T>(jsonResult);
+                return token;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<T> PostResponse<T>(string weburl, string jsonstring) where T : class
