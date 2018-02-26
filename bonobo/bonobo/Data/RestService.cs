@@ -12,23 +12,20 @@ namespace bonobo.Data
     public class RestService
     {
         HttpClient client;
-        string GrantType = "password";
 
         public RestService()
         {
             client = new HttpClient();
             //maximum number of bytes to buffer when reading the content in the HTTP response message
             client.MaxResponseContentBufferSize = 256000;
+            //set the Timeout property to a larger value to avoid TaskCanceledException
+            client.Timeout = TimeSpan.FromMinutes(30);
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public async Task<Token> Login(User user)
         {
-            var PostData = new List<KeyValuePair<string, string>>();
-           // PostData.Add(new KeyValuePair<string, string>("GrantType", GrantType));
-            PostData.Add(new KeyValuePair<string, string>("Username", user.Username));
-            PostData.Add(new KeyValuePair<string, string>("Password", user.Password));
-            var json = JsonConvert.SerializeObject(PostData);
+            var json = JsonConvert.SerializeObject(user);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await PostResponseLogIn<Token>(Constants.LoginURL, content);
             DateTime dt = new DateTime();

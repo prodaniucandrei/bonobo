@@ -3,10 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="bonobo.Views.Menu.Dashboard">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        
+        <StackLayout VerticalOptions="FillAndExpand">
+
+            <StackLayout x:Name="LogoStack">
+                <Label x:Name="Lbl_NoInternet" HorizontalTextAlignment="Center" TextColor="White" BackgroundColor="Red"/>
+                <Image x:Name="LoginIcon" Source="LoginIcon.png" Margin="0,80,0,0" />
+            </StackLayout>
+            
+            <Label Text="Welcome!" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Button Text="Screen 1" Clicked="SelectedScreen1" HorizontalOptions="Center" VerticalOptions="Center"/>
+        
         </StackLayout>
+        
     </ContentPage.Content>
 </ContentPage>

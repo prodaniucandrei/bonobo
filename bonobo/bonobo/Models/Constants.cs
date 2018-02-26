@@ -16,7 +16,7 @@ namespace bonobo.Models
         public static int LoginIconHeight = 120; //for phone
 
         //----------------Login------------------------------
-        public static string LoginURL = "http://10.0.2.2:6780/token";
+        public static string LoginURL = "http://192.168.0.14:6781/token";
 
         //----------------Internet Connection----------------
         public static string NoInternetText = "No Internet.";

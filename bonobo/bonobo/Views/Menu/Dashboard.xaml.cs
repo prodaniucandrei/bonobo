@@ -1,4 +1,6 @@
-﻿using System;
+﻿using bonobo.Models;
+using bonobo.Views.DetailViews;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +17,19 @@ namespace bonobo.Views.Menu
 		public Dashboard ()
 		{
 			InitializeComponent ();
+            Init();
 		}
+
+        void Init()
+        {
+            BackgroundColor = Constants.BackgroundColor;
+            //check for internet connection 
+            App.StartCheckIfInternet(Lbl_NoInternet, this);
+        }
+
+        async void SelectedScreen1(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new InfoPage());
+        }
 	}
 }
