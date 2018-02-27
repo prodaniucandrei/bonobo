@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="bonobo.Views.LoginPage">
+             x:Class="bonobo.Views.RegisterPage">
     <ContentPage.Content>
         <StackLayout x:Name="MasterLayout">
 
@@ -10,7 +10,7 @@
                 <Image x:Name="LoginIcon" Source="LoginIcon.png" Margin="0,80,0,0" />
             </StackLayout>
 
-            <StackLayout x:Name="LoginEntries" VerticalOptions="StartAndExpand">
+            <StackLayout x:Name="RegisterEntries" VerticalOptions="StartAndExpand">
                 <StackLayout.Padding>
                     <OnIdiom x:TypeArguments="Thickness">
                         <OnIdiom.Phone>40,0,40,0</OnIdiom.Phone>
@@ -20,32 +20,27 @@
 
                 <ActivityIndicator x:Name="ActivitySpinner" Color="Red" IsRunning="True"/>
 
-                <Label x:Name="Lbl_Username" Text="Username" />
-                <Entry x:Name="Entry_Username" Placeholder="Username"/>
+                <Label x:Name="Lbl_Email" Text="Username" />
+                <Entry x:Name="Entry_Email" Placeholder="Username"/>
 
                 <Label x:Name="Lbl_Password" Text="Password" />
                 <Entry x:Name="Entry_Password" Placeholder="Password"/>
 
-                <Label x:Name="Lbl_ForgotPass" Text="Forgot password?" HorizontalTextAlignment="Center" TextColor="Brown">
+                <Label x:Name="Lbl_RepeatPassword" Text="Repeat Password" />
+                <Entry x:Name="Entry_RepeatPassword" Placeholder="Password"/>
+
+                <Button x:Name="Btn_Register" Text="Register" Clicked="RegisterProcedure" />
+
+                <Label x:Name="Lbl_Login" Text="Login here." HorizontalTextAlignment="Center" TextColor="Brown">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer
-                            Tapped="OnTapGestureForForgotPassword"
-                            NumberOfTapsRequired="1" />
-                    </Label.GestureRecognizers>
-                </Label>
-
-                <Button x:Name="Btn_SignIn" Text="Sign In" Clicked="SignInProcedure" />
-
-                <Label x:Name="Lbl_Register" Text="Register here." HorizontalTextAlignment="Center" TextColor="Brown">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Tapped="OnTapGestureForRegistration"
+                            Tapped="OnTapGestureForLogin"
                             NumberOfTapsRequired="1" />
                     </Label.GestureRecognizers>
                 </Label>
                 
             </StackLayout>
-            
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -39,7 +39,7 @@ namespace bonobo.Views
         async void SignInProcedure(object sender, EventArgs e)
         {
             User user = new User(Entry_Username.Text, Entry_Password.Text);
-            if (user.CheckInformation())
+            if (user.CheckNullInformation())
             {
                 Token result;
                 //TODO: check for InternetConnection before calling the webserver
@@ -82,5 +82,22 @@ namespace bonobo.Views
                 await DisplayAlert("Login", "Login not correct: empty username or password.", "Ok");
             }
         }
-	}
+
+        async void OnTapGestureForRegistration(object sender, EventArgs args)
+        {
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                Application.Current.MainPage = new NavigationPage(new RegisterPage());
+            }
+            else if (Device.RuntimePlatform == Device.iOS)
+            {
+                await Navigation.PushModalAsync(new NavigationPage(new RegisterPage()));
+            }
+        }
+
+        async void OnTapGestureForForgotPassword(object sender, EventArgs args)
+        {
+            //TODO: implement password recovery procedure
+        }
+    }
 }

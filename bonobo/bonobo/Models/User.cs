@@ -20,12 +20,12 @@ namespace bonobo.Models
         }
 
         //check if the variables are corectly set
-        public bool CheckInformation()
+        public bool CheckNullInformation()
         {
-            if (!this.Username.Equals("") && !this.Password.Equals(""))
-                return true;
-            else
+            if (this.Username == null || this.Password == null)
                 return false;
+            else
+                return true;
         }
 
     }
