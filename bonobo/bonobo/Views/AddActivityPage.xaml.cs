@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace bonobo.Views.DetailViews
+namespace bonobo.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class InfoPage : ContentPage
+	public partial class AddActivityPage : ContentPage
 	{
-		public InfoPage ()
+		public AddActivityPage ()
 		{
 			InitializeComponent ();
 		}

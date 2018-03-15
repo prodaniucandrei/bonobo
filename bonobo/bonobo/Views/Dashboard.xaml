@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="bonobo.Views.Dashboard">
+    <ContentPage.Content>
+
+        <Grid ColumnSpacing="0" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition x:Name="Row"/>
+            </Grid.RowDefinitions>
+            <ContentView x:Name="InsertContent" Grid.Row="0"/>
+            <BoxView BackgroundColor="#DCDCDC" Grid.Row="1"/>
+            <!-- Tab Navigation Bar -->
+            <Grid ColumnSpacing="0" RowSpacing="0" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Home Tab -->
+                <StackLayout x:Name="Tab_Home" Spacing="0" Grid.Column="0">
+                    <Image x:Name="Img_Home" Source="homeicon.png"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="HomeIcon_Tapped" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
+                <!-- Add Activity Tab -->
+                <StackLayout x:Name="Tab_Add" Spacing="0" Grid.Column="1">
+                    <Image x:Name="Img_Add" Source="addicon.png" 
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="AddActivityIcon_Tapped" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+
+                <!-- User Info Tab -->
+                <StackLayout x:Name="Tab_Account" Spacing="0" Grid.Column="2">
+                    <Image x:Name="Img_Account" Source="accounticon.png" 
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="UserInfoIcon_Tapped" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

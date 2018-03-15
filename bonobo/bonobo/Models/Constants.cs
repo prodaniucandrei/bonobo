@@ -10,13 +10,22 @@ namespace bonobo.Models
     {
         public static bool isDev = true; //indicates if we are developing or using release code
 
-        public static Color BackgroundColor = Color.FromRgb(224, 204, 190);
-        public static Color MainTextColor = Color.FromRgb(146, 100, 93);
+        //-----------------STYLE--------------------------------------------------------------
+        public static Color BackgroundColor = Color.White;
+        public static Color MainTextColor = Color.FromHex("88c7c9");
 
+
+        //----------------LOGIN-STYLE-----------------------------------------------------
         public static int LoginIconHeight = 120; //for phone
 
 
-        //----------------API-Account-CALLS---------------------------------------------------
+        //----------------DASHBOARD-STYLE-----------------------------------------------------
+        public static Color CurrentTabColor = Color.FromHex("6ca9ab");
+        public static Color DefaultTabColor = Color.FromHex("88c7c9");
+        public static int RowHeight = 50;
+    
+
+        //----------------API-ACCOUNT-CALLS---------------------------------------------------
         public static string LoginURL = "http://192.168.0.14:6781/api/account/login";
         public static string LogoutURL = "http://192.168.0.14:6781/api/account/logout";
         public static string RegisterURL = "http://192.168.0.14:6781/api/account/register";
@@ -29,7 +38,7 @@ namespace bonobo.Models
         public static string DeleteAccountURL = "http://192.168.0.14:6781/api/account/deleteaccount";
 
 
-        //----------------API-Activity-CALLS--------------------------------------------------
+        //----------------API-ACTIVITY-CALLS--------------------------------------------------
         public static string CreateActivityURL = "http://192.168.0.14:6781/api/activity/createactivity";
         public static string UpdateActivityURL = "http://192.168.0.14:6781/api/activity/updatectivity";
         public static string GetAllActivitiesURL = "http://192.168.0.14:6781/api/activity/getallactivities";

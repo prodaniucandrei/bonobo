@@ -1,5 +1,4 @@
 ﻿using bonobo.Models;
-using bonobo.Views.Menu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,11 +64,11 @@ namespace bonobo.Views
                     //await makes sure that the code below won't be executed before the user presses 'OK'
                     await DisplayAlert("Login", "Login success. Hi " + App.UserDatabase.GetUser().Email, "OK");
                     if(Device.RuntimePlatform == Device.Android) {
-                        Application.Current.MainPage = new NavigationPage(new Dashboard());
+                        Application.Current.MainPage = new NavigationPage(new HomePage());
                     }
                     else if (Device.RuntimePlatform == Device.iOS)
                     {
-                        await Navigation.PushModalAsync(new NavigationPage(new Dashboard()));
+                        await Navigation.PushModalAsync(new NavigationPage(new HomePage()));
                     }
                 }
                 else
@@ -95,7 +94,7 @@ namespace bonobo.Views
             }
         }
 
-        async void OnTapGestureForForgotPassword(object sender, EventArgs args)
+        void OnTapGestureForForgotPassword(object sender, EventArgs args)
         {
             //TODO: implement password recovery procedure
         }
