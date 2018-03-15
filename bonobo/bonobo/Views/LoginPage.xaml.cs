@@ -63,7 +63,7 @@ namespace bonobo.Views
                     //save token for current user
                     App.TokenDatabase.SaveToken(result);
                     //await makes sure that the code below won't be executed before the user presses 'OK'
-                    await DisplayAlert("Login", "Login success. Hi " + App.UserDatabase.GetUser().Username, "OK");
+                    await DisplayAlert("Login", "Login success. Hi " + App.UserDatabase.GetUser().Email, "OK");
                     if(Device.RuntimePlatform == Device.Android) {
                         Application.Current.MainPage = new NavigationPage(new Dashboard());
                     }
