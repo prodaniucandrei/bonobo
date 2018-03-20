@@ -27,7 +27,7 @@ namespace bonobo.Views
             Img_Add.HeightRequest = Constants.RowHeight;
             Img_Account.HeightRequest = Constants.RowHeight;
 
-            Tab_Home.BackgroundColor = Constants.DefaultTabColor;
+            Tab_Home.BackgroundColor = Constants.CurrentTabColor;
             Tab_Add.BackgroundColor = Constants.DefaultTabColor;
             Tab_Account.BackgroundColor = Constants.DefaultTabColor;
 
