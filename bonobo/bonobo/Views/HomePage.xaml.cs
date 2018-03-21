@@ -43,56 +43,56 @@ namespace bonobo.Views
                 new Activity{
                     ActivityName = "Dancing",
                     Category = "Fun",
-                    ShortDescription = "bla bla bla bla bla bla bla bla bla bla bla bla bla bla",
+                    ShortDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     NoPlaces = 2,
                     Where = "home",
                     Image = "https://placeimg.com/640/480/people/1"},
                 new Activity{
                     ActivityName = "Walking",
                     Category = "Fun",
-                    ShortDescription = "bla bla bla bla bla bla bla bla bla bla bla bla bla bla",
+                    ShortDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     NoPlaces = 4,
                     Where = "home",
                     Image = "https://placeimg.com/640/480/people/2"},
                 new Activity{
                     ActivityName = "Climbing",
                     Category = "Sport",
-                    ShortDescription = "bla bla bla bla bla bla bla bla bla bla bla bla bla bla",
+                    ShortDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     NoPlaces = 3,
                     Where = "home",
                     Image = "https://placeimg.com/640/480/people/3"},
                 new Activity{
                     ActivityName = "Singing",
                     Category = "Fun",
-                    ShortDescription = "bla bla bla bla bla bla bla bla bla bla bla bla bla bla",
+                    ShortDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     NoPlaces = 6,
                     Where = "home",
                     Image = "https://placeimg.com/640/480/people/4"},
                 new Activity{
                     ActivityName = "Resting",
                     Category = "Relax",
-                    ShortDescription = "bla bla bla bla bla bla bla bla bla bla bla bla bla bla",
+                    ShortDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     NoPlaces = 1,
                     Where = "home",
                     Image = "https://placeimg.com/640/480/people/5"},
                 new Activity{
                     ActivityName = "Yoga",
                     Category = "Relax",
-                    ShortDescription = "bla bla bla bla bla bla bla bla bla bla bla bla bla bla",
+                    ShortDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     NoPlaces = 3,
                     Where = "home",
                     Image = "https://placeimg.com/640/480/people/6"},
                 new Activity{
                     ActivityName = "Reading",
                     Category = "Relax",
-                    ShortDescription = "bla bla bla bla bla bla bla bla bla bla bla bla bla bla",
+                    ShortDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     NoPlaces = 4,
                     Where = "home",
                     Image = "https://placeimg.com/640/480/people/7"},
                 new Activity{
                     ActivityName = "Boardgames",
                     Category = "Fun",
-                    ShortDescription = "bla bla bla bla bla bla bla bla bla bla bla bla bla bla",
+                    ShortDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                     NoPlaces = 8,
                     Where = "home",
                     Image = "https://placeimg.com/640/480/people/8"},
@@ -122,6 +122,11 @@ namespace bonobo.Views
         private void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             Activities_List.ItemsSource = GetList(e.NewTextValue);
+        }
+
+        void NewMessageIcon_Tapped(object sender, EventArgs e)
+        {
+            //TODO: go to new message page
         }
     }
 }

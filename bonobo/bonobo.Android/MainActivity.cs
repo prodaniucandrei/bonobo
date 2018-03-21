@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using ImageCircle.Forms.Plugin.Droid;
 
 namespace bonobo.Droid
 {
@@ -20,6 +21,7 @@ namespace bonobo.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            ImageCircleRenderer.Init(); //init Image Circle Plugin
             LoadApplication(new App());
         }
     }

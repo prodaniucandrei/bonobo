@@ -26,10 +26,12 @@ namespace bonobo.Views
             Img_Home.HeightRequest = Constants.RowHeight;
             Img_Add.HeightRequest = Constants.RowHeight;
             Img_Account.HeightRequest = Constants.RowHeight;
+            Img_Explore.HeightRequest = Constants.RowHeight;
 
             Tab_Home.BackgroundColor = Constants.CurrentTabColor;
             Tab_Add.BackgroundColor = Constants.DefaultTabColor;
             Tab_Account.BackgroundColor = Constants.DefaultTabColor;
+            Tab_Explore.BackgroundColor = Constants.DefaultTabColor;
 
             var page = new HomePage();
             InsertContent.Content = page.Content;
@@ -40,7 +42,18 @@ namespace bonobo.Views
             Tab_Home.BackgroundColor = Constants.CurrentTabColor;
             Tab_Add.BackgroundColor = Constants.DefaultTabColor;
             Tab_Account.BackgroundColor = Constants.DefaultTabColor;
+            Tab_Explore.BackgroundColor = Constants.DefaultTabColor;
             var page = new HomePage();
+            InsertContent.Content = page.Content;
+        }
+
+        void ExploreIcon_Tapped(object sender, EventArgs e)
+        {
+            Tab_Explore.BackgroundColor = Constants.CurrentTabColor;
+            Tab_Add.BackgroundColor = Constants.DefaultTabColor;
+            Tab_Account.BackgroundColor = Constants.DefaultTabColor;
+            Tab_Home.BackgroundColor = Constants.DefaultTabColor;
+            var page = new ExplorePage();
             InsertContent.Content = page.Content;
         }
 
@@ -49,6 +62,7 @@ namespace bonobo.Views
             Tab_Add.BackgroundColor = Constants.CurrentTabColor;
             Tab_Home.BackgroundColor = Constants.DefaultTabColor;
             Tab_Account.BackgroundColor = Constants.DefaultTabColor;
+            Tab_Explore.BackgroundColor = Constants.DefaultTabColor;
             var page = new AddActivityPage();
             InsertContent.Content = page.Content;
         }
@@ -58,6 +72,7 @@ namespace bonobo.Views
             Tab_Account.BackgroundColor = Constants.CurrentTabColor;
             Tab_Home.BackgroundColor = Constants.DefaultTabColor;
             Tab_Add.BackgroundColor = Constants.DefaultTabColor;
+            Tab_Explore.BackgroundColor = Constants.DefaultTabColor;
             var page = new UserInfoPage();
             InsertContent.Content = page.Content;
         }

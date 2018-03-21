@@ -1,12 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              x:Class="bonobo.Views.UserInfoPage">
     <ContentPage.Content>
-        
-        <StackLayout>
-            <Label Text="User Info Page!" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-        
+
+        <ScrollView>
+            <Grid ColumnSpacing="0" RowSpacing="0" BackgroundColor="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="AUTO" />
+                </Grid.RowDefinitions>
+
+                <!-- header picture -->
+                <Image x:Name="Img_ProfileHeader"/>
+                <Image 
+                Aspect="Fill" 
+                Margin="0,-1,0,-1" 
+                Source="curvedmask.png" 
+                VerticalOptions="End" />
+
+                <!--  profile image -->
+                <controls:CircleImage x:Name="Img_ProfilePicture" HorizontalOptions = "Center"/>
+
+                <!--  profile name  -->
+                <StackLayout Grid.Row="1" Padding="0,50,0,00">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Label x:Name="Lbl_FirstName" />
+                        <Label x:Name="Lbl_LastName" />
+                    </StackLayout>
+                    <Label x:Name="Lbl_TagLine" HorizontalOptions="Center"/>
+                </StackLayout>
+
+                <!--  user metrics  -->
+                <Grid Grid.Row="2" Margin="0,30" ColumnSpacing="0" RowSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout>
+                        <Label Text="23" HorizontalOptions="Center"/>
+                        <Label Text="Reviews" HorizontalOptions="Center"/>
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="1">
+                        <Label Text="34" HorizontalOptions="Center"/>
+                        <Label Text="Joined" HorizontalOptions="Center" />
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="2">
+                        <Label Text="17" HorizontalOptions="Center" />
+                        <Label Text="Hosted" HorizontalOptions="Center"/>
+                    </StackLayout>
+                </Grid>
+
+                <!--  profile description  -->
+                <Label Margin="20,0" Grid.Row="3" 
+                       Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus." />
+
+            </Grid>
+        </ScrollView>
+
     </ContentPage.Content>
 </ContentPage>
