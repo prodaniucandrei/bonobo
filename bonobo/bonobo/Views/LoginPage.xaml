@@ -23,8 +23,8 @@
                 <Label x:Name="Lbl_Username" Text="Username" />
                 <Entry x:Name="Entry_Username" Placeholder="Username"/>
 
-                <Label x:Name="Lbl_Password" Text="Password" />
-                <Entry x:Name="Entry_Password" Placeholder="Password"/>
+                <Label x:Name="Lbl_Password" Text="Password"/>
+                <Entry x:Name="Entry_Password" Placeholder="Password" IsPassword="True"/>
 
                 <Label x:Name="Lbl_ForgotPass" Text="Forgot password?" HorizontalTextAlignment="Center" TextColor="Brown">
                     <Label.GestureRecognizers>
