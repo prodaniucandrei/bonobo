@@ -19,11 +19,11 @@
                     TextChanged="SearchBar_OnTextChanged" 
                     HorizontalOptions="Start"
                     VerticalOptions="Center"/>
-                <Image x:Name="Img_NewMessage" Source="newmessageicon.png"
+                <Image x:Name="Img_Filter" Source="filtericon.png"
                            HorizontalOptions="End"
                            VerticalOptions="Center"/>
                 <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="NewMessageIcon_Tapped" />
+                    <TapGestureRecognizer Tapped="FilterIcon_Tapped" />
                 </StackLayout.GestureRecognizers>
             </StackLayout>
 
@@ -36,20 +36,29 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Orientation="Horizontal">
-                                <controls:CircleImage Source="{Binding Image}" 
-                                       HeightRequest="60" 
-                                       WidthRequest="60"
-                                       Aspect="AspectFill"
-                                       VerticalOptions="StartAndExpand" />
-                                <StackLayout HorizontalOptions="StartAndExpand">
-                                    <Label Text="{Binding ActivityName}" 
-                                       FontAttributes="Bold" />
-                                    <Label Text="{Binding Category}" 
-                                       TextColor="#88c7c9"/>
-                                    <Label Text="{Binding ShortDescription}"/>
-                                </StackLayout>
-                            </StackLayout>
+                            <Frame Padding="0,0,0,4">
+                                <Frame.Content>
+                                    <Frame Padding="15,15,15,15"   OutlineColor="Gray" BackgroundColor="White">
+                                        <Frame.Content>
+                                            <StackLayout Padding="10,0,0,0"  Orientation="Horizontal">
+                                                <controls:CircleImage Source="{Binding Image}" 
+                                                       HeightRequest="60" 
+                                                       WidthRequest="60"
+                                                       Aspect="AspectFill"
+                                                       VerticalOptions="Center" 
+                                                       HorizontalOptions="Start"/>
+                                                <StackLayout HorizontalOptions="StartAndExpand">
+                                                    <Label Text="{Binding ActivityName}" 
+                                                            FontAttributes="Bold" />
+                                                    <Label Text="{Binding Category}" 
+                                                            TextColor="#88c7c9"/>
+                                                    <Label Text="{Binding NoPlaces}"/>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame.Content>
+                                    </Frame>
+                                </Frame.Content>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

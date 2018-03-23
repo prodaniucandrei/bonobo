@@ -160,4 +160,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\curvedmask.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\filtericon.png" />
+  </ItemGroup>
 </Project>

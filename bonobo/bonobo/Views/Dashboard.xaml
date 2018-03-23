@@ -51,8 +51,18 @@
                     </StackLayout.GestureRecognizers>
                 </StackLayout>
 
+                <!-- Message Tab -->
+                <StackLayout x:Name="Tab_Message" Spacing="0" Grid.Column="3">
+                    <Image x:Name="Img_Message" Source="newmessageicon.png" 
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MessageIcon_Tapped" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                
                 <!-- User Info Tab -->
-                <StackLayout x:Name="Tab_Account" Spacing="0" Grid.Column="3">
+                <StackLayout x:Name="Tab_Account" Spacing="0" Grid.Column="4">
                     <Image x:Name="Img_Account" Source="accounticon.png" 
                            HorizontalOptions="Center"
                            VerticalOptions="Center"/>
