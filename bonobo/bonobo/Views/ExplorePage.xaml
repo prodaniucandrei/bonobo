@@ -3,10 +3,69 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="bonobo.Views.ExplorePage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Explore!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="SearchRow" />
+                <RowDefinition x:Name="ListRow"/>
+            </Grid.RowDefinitions>
+
+            <BoxView x:Name="Box_View" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+            <StackLayout x:Name="TopNavigationBar" Orientation="Horizontal">
+                <SearchBar 
+                    x:Name="Search_Bar" 
+                    Grid.Row="0" 
+                    TextChanged="SearchBar_OnTextChanged" 
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"/>
+            </StackLayout>
+
+            <ListView x:Name="Categories_List"
+                  Grid.Row="1"
+                  Refreshing="ListView_OnRefreshing"
+                  ItemTapped="ListView_OnItemTapped"
+                  ItemSelected="ListView_OnItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Padding="0,0,0,20"> 
+                                <Frame.Content>
+                                    <Frame Padding="0,0,0,0"   
+                                           OutlineColor="Gray" 
+                                           BackgroundColor="White">
+                                        <Frame.Content>
+                                            <StackLayout Padding="0,0,0,0">
+                                                <Image Source="{Binding Image}" 
+                                                       Aspect="AspectFill"
+                                                       HorizontalOptions="FillAndExpand"
+                                                       VerticalOptions="FillAndExpand"/>
+                                                <StackLayout VerticalOptions="End" HorizontalOptions="FillAndExpand">
+                                                    <Label x:Name="Lbl_CategoryName" Text="{Binding Name}" 
+                                                    FontAttributes="Bold" 
+                                                    TextColor="White"
+                                                    HorizontalTextAlignment="Center">
+                                                        <Label.BackgroundColor>
+                                                            <Color x:FactoryMethod="FromHsla">
+                                                                <x:Arguments>
+                                                                    <x:Double>0</x:Double>
+                                                                    <x:Double>0</x:Double>
+                                                                    <x:Double>0</x:Double>
+                                                                    <x:Double>0.2</x:Double>
+                                                                </x:Arguments>
+                                                            </Color>
+                                                        </Label.BackgroundColor>
+                                                    </Label>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame.Content>
+                                    </Frame>
+                                </Frame.Content>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
     </ContentPage.Content>
 </ContentPage>
