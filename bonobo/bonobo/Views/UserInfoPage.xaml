@@ -13,6 +13,7 @@
                     <RowDefinition Height="AUTO" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="AUTO" />
                 </Grid.RowDefinitions>
 
                 <!-- header picture -->
@@ -33,6 +34,7 @@
                         <Label x:Name="Lbl_LastName" />
                     </StackLayout>
                     <Label x:Name="Lbl_TagLine" HorizontalOptions="Center"/>
+                    <Label x:Name="Lbl_Email" HorizontalOptions="Center"/>
                 </StackLayout>
 
                 <!--  user metrics  -->
@@ -63,6 +65,17 @@
                 <Label Margin="20,0" Grid.Row="3" 
                        Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus." />
 
+                <Label Margin="20,0" Grid.Row="4"
+                    x:Name="Lbl_SignOut" 
+                       Text="Sign Out." 
+                       HorizontalTextAlignment="Center" 
+                       TextColor="Brown">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnTapGestureForSigningOut"
+                            NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
             </Grid>
         </ScrollView>
 

@@ -40,7 +40,7 @@ namespace bonobo.Views
 
         async void RegisterProcedure(object sender, EventArgs e)
         {
-            //TODO: other password and emai checks
+            //TODO: other password and email checks
             if(Entry_Password.Text != Entry_RepeatPassword.Text)
                 await DisplayAlert("Register", "The two passwords you typed do not match. Try again.", "Ok");
             else

@@ -5,15 +5,15 @@ using System.Text;
 
 namespace bonobo.ViewModels
 {
-    public class UserLogin
+    public class LoginView
     {
         [PrimaryKey]
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public UserLogin() { } //for the DB controller
-        public UserLogin(string Email, string Password)
+        public LoginView() { } //for the DB controller
+        public LoginView(string Email, string Password)
         {
             this.Email = Email;
             this.Password = Password;

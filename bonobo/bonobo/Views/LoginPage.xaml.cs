@@ -38,7 +38,7 @@ namespace bonobo.Views
 
         async void SignInProcedure(object sender, EventArgs e)
         {
-            UserLogin user = new UserLogin(Entry_Username.Text, Entry_Password.Text);
+            LoginView user = new LoginView(Entry_Username.Text, Entry_Password.Text);
             if (user.CheckNullInformation())
             {
                 Token result;
@@ -55,9 +55,6 @@ namespace bonobo.Views
                 }
                 if(result != null)
                 {
-                    //TODO: delete previously saved user; should happen on sign out procedure
-                    App.UserDatabase.DeleteUser(0);
-                    App.TokenDatabase.DeleteToken(0);
                     //save current logged user in local DB
                     App.UserDatabase.SaveUser(user);
                     //save token for current user

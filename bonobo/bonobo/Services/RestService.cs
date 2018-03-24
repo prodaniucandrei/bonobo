@@ -24,7 +24,9 @@ namespace bonobo.Data
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<Token> Login(UserLogin user)
+
+        //-----------------LOGIN--------------------------------------------------------------
+        public async Task<Token> Login(LoginView user)
         {
             var json = JsonConvert.SerializeObject(user);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -54,6 +56,19 @@ namespace bonobo.Data
             }
         }
 
+
+        //-----------------LOGOUT-------------------------------------------------------------
+        public async Task<bool> Logout()
+        {
+            var uri = Constants.LogoutURL;
+            var response = await client.PostAsync(uri, null);
+            if(response.IsSuccessStatusCode)
+                return true; 
+            return false;
+        }
+
+
+        //-----------------POST---------------------------------------------------------------
         public async Task<T> PostResponse<T>(string weburl, string jsonstring) where T : class
         {
             var Token = App.TokenDatabase.GetToken();
@@ -77,6 +92,8 @@ namespace bonobo.Data
             return null;
         }
 
+
+        //-----------------GET----------------------------------------------------------------
         public async Task<T> GetResponse<T>(string weburl) where T : class
         {
             var Token = App.TokenDatabase.GetToken();

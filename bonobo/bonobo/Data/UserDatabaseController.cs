@@ -18,25 +18,25 @@ namespace bonobo.Data
         public UserDatabaseController()
         {
             database = DependencyService.Get<ISQLite>().GetConnection(); //use platform specific code
-            database.CreateTable<UserLogin>();
+            database.CreateTable<LoginView>();
         }
 
-        public UserLogin GetUser()
+        public LoginView GetUser()
         {
             lock (locker)
             {
-                if(database.Table<UserLogin>().Count() == 0)
+                if(database.Table<LoginView>().Count() == 0)
                 {
                     return null;
                 }
                 else
                 {
-                    return database.Table<UserLogin>().First();
+                    return database.Table<LoginView>().First();
                 }
             }
         }
 
-        public int SaveUser(UserLogin user)
+        public int SaveUser(LoginView user)
         {
             lock (locker)
             {
@@ -56,7 +56,7 @@ namespace bonobo.Data
         {
             lock (locker)
             {
-                return database.Delete<UserLogin>(Id);
+                return database.Delete<LoginView>(Id);
             }
 
         }
