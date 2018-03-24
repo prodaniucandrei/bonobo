@@ -1,4 +1,5 @@
 ﻿using bonobo.Models;
+using bonobo.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace bonobo.Data
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<Token> Login(User user)
+        public async Task<Token> Login(UserLogin user)
         {
             var json = JsonConvert.SerializeObject(user);
             var content = new StringContent(json, Encoding.UTF8, "application/json");

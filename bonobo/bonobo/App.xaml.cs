@@ -28,8 +28,14 @@ namespace bonobo
             InitializeComponent();
 
             //the page that the app shows when launches
-            //MainPage = new LoginPage();
-            MainPage = new Dashboard();
+            if(App.UserDatabase.GetUser() != null)
+            {
+                MainPage = new Dashboard();
+            }
+            else
+            {
+                MainPage = new LoginPage();
+            }
         }
 
         protected override void OnStart()

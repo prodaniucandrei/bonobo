@@ -1,4 +1,5 @@
 ﻿using bonobo.Models;
+using bonobo.ViewModels;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -17,25 +18,25 @@ namespace bonobo.Data
         public UserDatabaseController()
         {
             database = DependencyService.Get<ISQLite>().GetConnection(); //use platform specific code
-            database.CreateTable<User>();
+            database.CreateTable<UserLogin>();
         }
 
-        public User GetUser()
+        public UserLogin GetUser()
         {
             lock (locker)
             {
-                if(database.Table<User>().Count() == 0)
+                if(database.Table<UserLogin>().Count() == 0)
                 {
                     return null;
                 }
                 else
                 {
-                    return database.Table<User>().First();
+                    return database.Table<UserLogin>().First();
                 }
             }
         }
 
-        public int SaveUser(User user)
+        public int SaveUser(UserLogin user)
         {
             lock (locker)
             {
@@ -55,7 +56,7 @@ namespace bonobo.Data
         {
             lock (locker)
             {
-                return database.Delete<User>(Id);
+                return database.Delete<UserLogin>(Id);
             }
 
         }

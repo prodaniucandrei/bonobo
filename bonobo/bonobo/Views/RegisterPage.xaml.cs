@@ -50,11 +50,11 @@ namespace bonobo.Views
                 //go to LoginPage
                 if (Device.RuntimePlatform == Device.Android)
                 {
-                    Application.Current.MainPage = new NavigationPage(new LoginPage());
+                    Application.Current.MainPage = new LoginPage();
                 }
                 else if (Device.RuntimePlatform == Device.iOS)
                 {
-                    await Navigation.PushModalAsync(new NavigationPage(new LoginPage()));
+                    await Navigation.PushModalAsync(new LoginPage());
                 }
             }
         }

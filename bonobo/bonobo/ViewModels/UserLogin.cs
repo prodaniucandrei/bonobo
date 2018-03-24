@@ -3,17 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace bonobo.Models
+namespace bonobo.ViewModels
 {
-    public class User
+    public class UserLogin
     {
         [PrimaryKey]
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public User() { } //for the DB controller
-        public User(string Email, string Password)
+        public UserLogin() { } //for the DB controller
+        public UserLogin(string Email, string Password)
         {
             this.Email = Email;
             this.Password = Password;

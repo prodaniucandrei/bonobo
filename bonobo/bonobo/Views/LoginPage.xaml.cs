@@ -1,4 +1,5 @@
 ﻿using bonobo.Models;
+using bonobo.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace bonobo.Views
 
         async void SignInProcedure(object sender, EventArgs e)
         {
-            User user = new User(Entry_Username.Text, Entry_Password.Text);
+            UserLogin user = new UserLogin(Entry_Username.Text, Entry_Password.Text);
             if (user.CheckNullInformation())
             {
                 Token result;
@@ -63,12 +64,15 @@ namespace bonobo.Views
                     App.TokenDatabase.SaveToken(result);
                     //await makes sure that the code below won't be executed before the user presses 'OK'
                     await DisplayAlert("Login", "Login success. Hi " + App.UserDatabase.GetUser().Email, "OK");
-                    if(Device.RuntimePlatform == Device.Android) {
-                        Application.Current.MainPage = new NavigationPage(new HomePage());
+                    /* With the `PushModalAsync` method we navigate the user 
+                     * the the orders page and do not give them an option to
+                     * navigate back to the LoginPage by clicking the back button */
+                    if (Device.RuntimePlatform == Device.Android) {
+                        Application.Current.MainPage = new Dashboard();
                     }
                     else if (Device.RuntimePlatform == Device.iOS)
                     {
-                        await Navigation.PushModalAsync(new NavigationPage(new HomePage()));
+                        await Navigation.PushModalAsync(new Dashboard());
                     }
                 }
                 else
@@ -86,11 +90,11 @@ namespace bonobo.Views
         {
             if (Device.RuntimePlatform == Device.Android)
             {
-                Application.Current.MainPage = new NavigationPage(new RegisterPage());
+                Application.Current.MainPage = new RegisterPage();
             }
             else if (Device.RuntimePlatform == Device.iOS)
             {
-                await Navigation.PushModalAsync(new NavigationPage(new RegisterPage()));
+                await Navigation.PushModalAsync(new RegisterPage());
             }
         }
 
