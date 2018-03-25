@@ -4,14 +4,14 @@ using System.Text;
 
 namespace bonobo.Models
 {
-    public class UserProfile
+    public class UserProfileView
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string HeaderImage { get; set; }
         public string ProfileImage { get; set; }
 
-        public UserProfile(string firstname, string lastname, string himage, string pimage)
+        public UserProfileView(string firstname, string lastname, string himage, string pimage)
         {
             this.FirstName = firstname;
             this.LastName = lastname;

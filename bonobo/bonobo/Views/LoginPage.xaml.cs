@@ -1,7 +1,9 @@
-﻿using bonobo.Models;
+﻿using bonobo.Dtos;
+using bonobo.Models;
 using bonobo.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,20 +52,57 @@ namespace bonobo.Views
                     result = null;
                 } catch (TaskCanceledException) {
                     result = null;
-                    Console.WriteLine("TaskCanceledException in Login.");
+                    Debug.WriteLine("TaskCanceledException in Login.");
                     await DisplayAlert("Login", "Not able to reach server in time.", "Ok");
                 }
                 if(result != null)
                 {
-                    //save current logged user in local DB
-                    App.UserDatabase.SaveUser(user);
                     //save token for current user
                     App.TokenDatabase.SaveToken(result);
-                    //await makes sure that the code below won't be executed before the user presses 'OK'
-                    await DisplayAlert("Login", "Login success. Hi " + App.UserDatabase.GetUser().Email, "OK");
-                    /* With the `PushModalAsync` method we navigate the user 
-                     * the the orders page and do not give them an option to
-                     * navigate back to the LoginPage by clicking the back button */
+                    //retrieve info about the user who logges in
+                    UserDto userdto = null;
+                    try
+                    {
+                        userdto = await App.RestService.GetUserByEmail(user.Email);
+                    }
+                    catch (NullReferenceException)
+                    {
+                        userdto = null;
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        userdto = null;
+                        Debug.WriteLine("TaskCanceledException in Login.");
+                        await DisplayAlert("Login", "Not able to reach server in time.", "Ok");
+                    }
+                    
+                    User usr;
+                    if (userdto == null)
+                    {
+                        Debug.WriteLine("Login: Could not retrieve user data from server.");
+                        usr = new User(
+                            user.Email,
+                            user.Email,
+                            user.Email,
+                            user.Password,
+                            DateTime.Now,
+                            user.Email);
+                    }
+                    else
+                    {
+                        usr = new User(
+                            userdto.FirstName, 
+                            userdto.LastName, 
+                            user.Email, 
+                            user.Password, 
+                            userdto.BirthDate,
+                            userdto.Gender);
+                    }
+
+                    //save current logged user in local DB
+                    App.UserDatabase.SaveUser(usr);
+
+                    //navigate to dashboard
                     if (Device.RuntimePlatform == Device.Android) {
                         Application.Current.MainPage = new Dashboard();
                     }

@@ -10,37 +10,56 @@
                 <Image x:Name="LoginIcon" Source="LoginIcon.png" Margin="0,80,0,0" />
             </StackLayout>
 
-            <StackLayout x:Name="RegisterEntries" VerticalOptions="StartAndExpand">
-                <StackLayout.Padding>
-                    <OnIdiom x:TypeArguments="Thickness">
-                        <OnIdiom.Phone>40,0,40,0</OnIdiom.Phone>
-                        <OnIdiom.Tablet>140,150,140,0</OnIdiom.Tablet>
-                    </OnIdiom>
-                </StackLayout.Padding>
+            <ScrollView>
+                <StackLayout x:Name="RegisterEntries" VerticalOptions="StartAndExpand">
+                    <StackLayout.Padding>
+                        <OnIdiom x:TypeArguments="Thickness">
+                            <OnIdiom.Phone>40,0,40,0</OnIdiom.Phone>
+                            <OnIdiom.Tablet>140,150,140,0</OnIdiom.Tablet>
+                        </OnIdiom>
+                    </StackLayout.Padding>
 
-                <ActivityIndicator x:Name="ActivitySpinner" Color="Red" IsRunning="True"/>
+                    <ActivityIndicator x:Name="ActivitySpinner" Color="Red" IsRunning="True"/>
 
-                <Label x:Name="Lbl_Email" Text="Username" />
-                <Entry x:Name="Entry_Email" Placeholder="Username"/>
+                    <Label x:Name="Lbl_FirstName" Text="First Name" />
+                    <Entry x:Name="Entry_FirstName" Placeholder="First Name"/>
 
-                <Label x:Name="Lbl_Password" Text="Password" />
-                <Entry x:Name="Entry_Password" Placeholder="Password"/>
+                    <Label x:Name="Lbl_LastName" Text="Last Name" />
+                    <Entry x:Name="Entry_LastName" Placeholder="Last Name"/>
 
-                <Label x:Name="Lbl_RepeatPassword" Text="Repeat Password" />
-                <Entry x:Name="Entry_RepeatPassword" Placeholder="Password"/>
+                    <Label x:Name="Lbl_Birthdate" Text="Birthdate"></Label>
+                    <DatePicker x:Name="DatePicker_Birthday"></DatePicker>
 
-                <Button x:Name="Btn_Register" Text="Register" Clicked="RegisterProcedure" />
+                    <Label x:Name="Lbl_Gender" Text="Gender"></Label>
+                    <Picker x:Name="Picker_Gender" HorizontalOptions="FillAndExpand">
+                        <Picker.Items>
+                            <x:String>Female</x:String>
+                            <x:String>Male</x:String>
+                            <x:String>Prefer not to say.</x:String>
+                        </Picker.Items>
+                    </Picker>
 
-                <Label x:Name="Lbl_Login" Text="Login here." HorizontalTextAlignment="Center" TextColor="Brown">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer
+                    <Label x:Name="Lbl_Email" Text="Email" />
+                    <Entry x:Name="Entry_Email" Placeholder="Email"/>
+
+                    <Label x:Name="Lbl_Password" Text="Password"/>
+                    <Entry x:Name="Entry_Password" Placeholder="Password" IsPassword="True"/>
+
+                    <Label x:Name="Lbl_RepeatPassword" Text="Repeat Password" />
+                    <Entry x:Name="Entry_RepeatPassword" Placeholder="Password" IsPassword="True"/>
+
+                    <Button x:Name="Btn_Register" Text="Register" Clicked="RegisterProcedure" />
+
+                    <Label x:Name="Lbl_Login" Text="Login here." HorizontalTextAlignment="Center" TextColor="Brown">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
                             Tapped="OnTapGestureForLogin"
                             NumberOfTapsRequired="1" />
-                    </Label.GestureRecognizers>
-                </Label>
-                
-            </StackLayout>
+                        </Label.GestureRecognizers>
+                    </Label>
 
+                </StackLayout>
+            </ScrollView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -31,6 +31,21 @@ namespace bonobo.ViewModels
             this.BirthDate = birthdate;
             this.Gender = gender;
         }
+
+        //check if the variables are corectly set
+        public bool CheckNullInformation()
+        {
+            if (this.Email == null || 
+                this.Password == null || 
+                this.ConfirmPassword == null || 
+                this.FirstName == null || 
+                this.LastName == null ||
+                this.Gender == null ||
+                this.BirthDate == null)
+                return false;
+            else
+                return true;
+        }
     }
    
 }
