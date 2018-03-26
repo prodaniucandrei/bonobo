@@ -23,6 +23,8 @@ namespace bonobo.Views
                 Birthdate = App.UserDatabase.GetUser().BirthDate,
                 HeaderImage = "http://acephalous.typepad.com/.a/6a00d8341c2df453ef017d3c2bd399970c-500wi",
                 ProfileImage = "https://manofmany.com/wp-content/uploads/2017/07/Jon-Snow-2.jpg",
+                Tagline = "I conquer super villains and make the world a safer place.",
+                ShortDesc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus.",
                 Reviews = 16,
                 Hosted = 11,
                 Joined = 24
@@ -48,7 +50,7 @@ namespace bonobo.Views
             Lbl_Name.Text = user.FirstName + " " + user.LastName;
             Lbl_Name.FontAttributes = FontAttributes.Bold;
 
-            Lbl_TagLine.Text = "I conquer super villains and make the world a safer place.";
+            Lbl_TagLine.Text = user.Tagline;
             Lbl_TagLine.FontAttributes = FontAttributes.Italic;
 
             Lbl_Reviews.Text = user.Reviews.ToString();
@@ -58,7 +60,7 @@ namespace bonobo.Views
             Lbl_Hosted.Text =user.Hosted.ToString();
             Lbl_Hosted.TextColor = Constants.MainTextColor;
 
-            Lbl_Desc.Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus.";
+            Lbl_Desc.Text = user.ShortDesc;
 
             //compute user age
             DateTime zeroTime = new DateTime(1, 1, 1);
