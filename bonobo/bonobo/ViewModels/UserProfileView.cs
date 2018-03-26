@@ -8,15 +8,12 @@ namespace bonobo.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Gender { get; set; }
+        public DateTime Birthdate { get; set; }
         public string HeaderImage { get; set; }
         public string ProfileImage { get; set; }
-
-        public UserProfileView(string firstname, string lastname, string himage, string pimage)
-        {
-            this.FirstName = firstname;
-            this.LastName = lastname;
-            this.HeaderImage = himage;
-            this.ProfileImage = pimage;
-        }
+        public int Reviews { get; set; }
+        public int Hosted { get; set; }
+        public int Joined { get; set; }
     }
 }

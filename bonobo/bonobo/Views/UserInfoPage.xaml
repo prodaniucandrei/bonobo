@@ -30,11 +30,9 @@
                 <!--  profile name  -->
                 <StackLayout Grid.Row="1" Padding="0,50,0,00">
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                        <Label x:Name="Lbl_FirstName" />
-                        <Label x:Name="Lbl_LastName" />
+                        <Label x:Name="Lbl_Name" />
                     </StackLayout>
                     <Label x:Name="Lbl_TagLine" HorizontalOptions="Center"/>
-                    <Label x:Name="Lbl_Email" HorizontalOptions="Center"/>
                 </StackLayout>
 
                 <!--  user metrics  -->
@@ -46,25 +44,39 @@
                     </Grid.ColumnDefinitions>
 
                     <StackLayout>
-                        <Label Text="23" HorizontalOptions="Center"/>
+                        <Label x:Name="Lbl_Reviews" HorizontalOptions="Center"/>
                         <Label Text="Reviews" HorizontalOptions="Center"/>
                     </StackLayout>
 
                     <StackLayout Grid.Column="1">
-                        <Label Text="34" HorizontalOptions="Center"/>
+                        <Label x:Name="Lbl_Joined" HorizontalOptions="Center"/>
                         <Label Text="Joined" HorizontalOptions="Center" />
                     </StackLayout>
 
                     <StackLayout Grid.Column="2">
-                        <Label Text="17" HorizontalOptions="Center" />
+                        <Label x:Name="Lbl_Hosted" HorizontalOptions="Center" />
                         <Label Text="Hosted" HorizontalOptions="Center"/>
                     </StackLayout>
                 </Grid>
 
-                <!--  profile description  -->
-                <Label Margin="20,0" Grid.Row="3" 
-                       Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus." />
-
+                <!--  user info  -->
+                <Frame Grid.Row="3" VerticalOptions="End" Padding="0,0,0,0">
+                    <Frame.Content>
+                        <Frame Padding="15,15,15,15"   OutlineColor="Gray" BackgroundColor="White">
+                            <Frame.Content>
+                                <StackLayout Padding="0,0,0,0"  Orientation="Horizontal">
+                                    <StackLayout HorizontalOptions="StartAndExpand">
+                                        <Label x:Name="Lbl_Gender"/>
+                                        <Label x:Name="Lbl_Birthday"/>
+                                        <!--  profile description  -->
+                                        <Label x:Name="Lbl_Desc" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame.Content>
+                        </Frame>
+                    </Frame.Content>
+                </Frame>
+          
                 <Label Margin="20,0" Grid.Row="4"
                     x:Name="Lbl_SignOut" 
                        Text="Sign Out." 
