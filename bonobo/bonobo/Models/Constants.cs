@@ -33,8 +33,8 @@ namespace bonobo.Models
         public static string ChangePasswordURL = "http://192.168.0.14:6781/api/account/changepassword";
         public static string UpdateUserInfoURL = "http://192.168.0.14:6781/api/account/updateuserinfo";
         public static string GetAllUsersURL = "http://192.168.0.14:6781/api/account/getallusers";
-        public static string GetUserByIdURL = "http://192.168.0.14:6781/api/account/getuserbyid";
-        public static string GetUserByEmailURL = "http://192.168.0.14:6781/api/account/getuserbyemail";
+        public static string FindUserByIdURL = "http://192.168.0.14:6781/api/account/finduserbyid";
+        public static string FindUserByEmailURL = "http://192.168.0.14:6781/api/account/finduserbyemail";
         public static string DeleteAccountURL = "http://192.168.0.14:6781/api/account/deleteaccount";
 
 

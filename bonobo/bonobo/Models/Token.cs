@@ -18,5 +18,8 @@ namespace bonobo.Models
         public int ExpireIn { get; set; }    
 
         public Token() { } //for the DB controller
+        public Token(string token) {
+            this.AccessToken = token;
+        } //for login
     }
 }

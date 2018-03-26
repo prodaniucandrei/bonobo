@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,14 +32,15 @@ namespace bonobo.Data
         {
             var json = JsonConvert.SerializeObject(user);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await PostResponseLogIn<Token>(Constants.LoginURL, content);
+            Token response = await PostResponseLogIn(Constants.LoginURL, content);
+            Debug.WriteLine("RestService: LogIn token = " + response.AccessToken);
             DateTime dt = new DateTime();
             dt = DateTime.Today;
             response.ExpireDate = dt.AddSeconds(response.ExpireIn);
             return response;
         }
 
-        public async Task<T> PostResponseLogIn<T>(string weburl, StringContent content) where T : class
+        public async Task<Token> PostResponseLogIn(string weburl, StringContent content) 
         {
             HttpResponseMessage response = null;
             var uri = new Uri(string.Format(weburl, string.Empty));
@@ -48,8 +50,10 @@ namespace bonobo.Data
             if (response.IsSuccessStatusCode)
             {
                 var jsonResult = response.Content.ReadAsStringAsync().Result;
-                var token = JsonConvert.DeserializeObject<T>(jsonResult);
-                return token;
+                Debug.WriteLine("RestService: PostResponseLogIn jsonResult = " + jsonResult);
+                var msg= JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonResult);
+                Debug.WriteLine("RestService: PostResponseLogIn token = " + msg["token"]);
+                return new Token(msg["token"]);
             }
             else
             {
@@ -85,29 +89,49 @@ namespace bonobo.Data
             return false;
         }
 
-        //-----------------GET-USER-BY-EMAIL--------------------------------------------------
-        public async Task<UserDto> GetUserByEmail(string email)
+        //-----------------FIND-USER-BY-EMAIL-------------------------------------------------
+        public async Task<UserDto> FindUserByEmail(FindUserByEmailViewModel model)
         {
+            Debug.WriteLine("RestService: FindUserByEmail email = " + model.Email);
+            HttpResponseMessage Response = null;
             var Token = App.TokenDatabase.GetToken();
+            Debug.WriteLine("RestService: FindUserByEmail token = " + Token.AccessToken);
             client.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.AccessToken);
 
-            var uri = new Uri(string.Format(Constants.GetUserByEmailURL, string.Empty));
-            var json = JsonConvert.SerializeObject(email);
+            var uri = new Uri(string.Format(Constants.FindUserByEmailURL, string.Empty));
+            Debug.WriteLine("RestService: FindUserByEmail uri = " + uri);
+            var json = JsonConvert.SerializeObject(model);
+            Debug.WriteLine("RestService: FindUserByEmail json = " + json);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            Debug.WriteLine("RestService: FindUserByEmail content = " + content);
 
             try
             {
                 //send a POST request to the web service specified by the URI
-                var Response = await client.PostAsync(uri, content);
-                if (Response.StatusCode == System.Net.HttpStatusCode.OK)
+                Response = await client.PostAsync(uri, content);
+                if (Response.IsSuccessStatusCode)
                 {
                     var JsonResult = Response.Content.ReadAsStringAsync().Result;
-                    Debug.WriteLine("GetUserByEmail JsonResult: " + JsonResult);
+                    Debug.WriteLine("RestService: FindUserByEmail JsonResult: " + JsonResult);
                     try
                     {
-                        var ContentResp = JsonConvert.DeserializeObject<UserDto>(JsonResult);
-                        return ContentResp;
+                        var msg = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonResult);
+                        Debug.WriteLine("RestService: FindUserByEmail msg['birthDate']: " + msg["birthDate"]);
+                        DateTime bday = DateTime.ParseExact(msg["birthDate"], "yyyy-MM-ddTHH:mm:ss.fff",
+                                       CultureInfo.InvariantCulture);
+
+                        Debug.WriteLine("RestService: FindUserByEmail bday: " + bday);
+
+                        UserDto userdto = new UserDto(
+                            msg["id"],
+                            msg["firstName"],
+                            msg["lastName"],
+                            msg["email"],
+                            bday,
+                            msg["gender"]
+                            );
+                        return userdto;
                     }
                     catch { return null; }
                 }

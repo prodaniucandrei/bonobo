@@ -57,13 +57,18 @@ namespace bonobo.Views
                 }
                 if(result != null)
                 {
+                    //make sure previous token is deleted
+                    if(App.TokenDatabase.GetToken() != null)
+                        App.TokenDatabase.DeleteToken(0);
                     //save token for current user
                     App.TokenDatabase.SaveToken(result);
+                    Debug.WriteLine("Login: saved token = " + App.TokenDatabase.GetToken().AccessToken);
                     //retrieve info about the user who logges in
-                    UserDto userdto = null;
+                    UserDto userdto;
                     try
                     {
-                        userdto = await App.RestService.GetUserByEmail(user.Email);
+                        Debug.WriteLine("Login: user.Email = " + user.Email);
+                        userdto = await App.RestService.FindUserByEmail(new FindUserByEmailViewModel { Email = user.Email });
                     }
                     catch (NullReferenceException)
                     {
@@ -77,10 +82,12 @@ namespace bonobo.Views
                     }
                     
                     User usr;
+                    Debug.WriteLine("Login: userDTO = " + userdto.FirstName + " " + userdto.BirthDate);
                     if (userdto == null)
                     {
                         Debug.WriteLine("Login: Could not retrieve user data from server.");
                         usr = new User(
+                            user.Email,
                             user.Email,
                             user.Email,
                             user.Email,
@@ -91,6 +98,7 @@ namespace bonobo.Views
                     else
                     {
                         usr = new User(
+                            userdto.RemoteId,
                             userdto.FirstName, 
                             userdto.LastName, 
                             user.Email, 
@@ -99,6 +107,9 @@ namespace bonobo.Views
                             userdto.Gender);
                     }
 
+                    //make sure previous user is deleted
+                    if(App.UserDatabase.GetUser() != null)
+                        App.UserDatabase.DeleteUser(0);
                     //save current logged user in local DB
                     App.UserDatabase.SaveUser(usr);
 

@@ -40,8 +40,10 @@ namespace bonobo.Views
             Lbl_FirstName.Text = user.FirstName;
             Lbl_LastName.Text = user.LastName;
             Lbl_TagLine.Text = "I conquer super villains and make the world a safer place.";
-            Lbl_Email.Text = App.UserDatabase.GetUser().FirstName + " " + App.UserDatabase.GetUser().LastName;
-
+            Lbl_Email.Text = App.UserDatabase.GetUser().FirstName
+                + " "
+                + App.UserDatabase.GetUser().LastName
+                + App.UserDatabase.GetUser().BirthDate.ToString();
         }
 
         async void OnTapGestureForSigningOut(object sender, EventArgs args)

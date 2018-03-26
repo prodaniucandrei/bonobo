@@ -9,6 +9,7 @@ namespace bonobo.Models
     {
         [PrimaryKey]
         public int Id { get; set; }
+        public string RemoteId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -18,6 +19,7 @@ namespace bonobo.Models
 
         public User() { } //for the DB controller
         public User(
+           string remoteid,
            string firstname,
            string lastname,
            string email,
@@ -25,6 +27,7 @@ namespace bonobo.Models
            DateTime birthdate,
            string gender)
         {
+            this.RemoteId = remoteid;
             this.FirstName = firstname;
             this.LastName = lastname;
             this.Email = email;
