@@ -1,12 +1,99 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              x:Class="bonobo.Views.ActivityPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="ActivityPage!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+
+        <ScrollView>
+            <Grid ColumnSpacing="0" RowSpacing="0" BackgroundColor="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="AUTO" />
+                </Grid.RowDefinitions>
+
+                <!-- header picture -->
+                <Image x:Name="Img_ActivityPicture"/>
+
+                <!--  activity title and category  -->
+                <StackLayout Grid.Row="1" Padding="0,50,0,00">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Label x:Name="Lbl_ActivityTitle"></Label>
+                    </StackLayout>
+                    <Label x:Name="Lbl_Category" HorizontalOptions="Center"/>
+                </StackLayout>
+
+                <!--  activity metrics  -->
+                <Grid Grid.Row="2" Margin="0,30" ColumnSpacing="0" RowSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackLayout Grid.Column="0" 
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+                        <Label x:Name="Lbl_Date" />
+                        <Image x:Name="Img_Date" />
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="1" 
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+                        <Label x:Name="Lbl_Location" />
+                        <Image x:Name="Img_Location" />
+                    </StackLayout>
+
+                    <StackLayout Grid.Column="2" 
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center">
+                        <Label x:Name="Lbl_Guests" />
+                        <Image x:Name="Img_Guests" />
+                    </StackLayout>
+
+                </Grid>
+
+                <!--  more info  -->
+                <Frame Grid.Row="3" VerticalOptions="End" Padding="0,0,0,0">
+                    <Frame.Content>
+                        <Frame Padding="15,15,15,15"   OutlineColor="Gray" BackgroundColor="White">
+                            <Frame.Content>
+                                <StackLayout Padding="0,0,0,0"  Orientation="Horizontal">
+                                    <StackLayout HorizontalOptions="StartAndExpand">
+                                        <StackLayout Orientation="Horizontal">
+                                            <!--  host user profile image -->
+                                            <controls:CircleImage 
+                                                    x:Name="Img_ProfilePicture" 
+                                                    HorizontalOptions = "Start"/>
+                                            <Label x:Name="Lbl_HostName"
+                                                   VerticalOptions="Center"
+                                                   />
+                                        </StackLayout>
+                                        <!--  profile description  -->
+                                        <Label x:Name="Lbl_Desc" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame.Content>
+                        </Frame>
+                    </Frame.Content>
+                </Frame>
+
+                <Label Margin="20,0" Grid.Row="4"
+                    x:Name="Lbl_Join" 
+                       Text="Join" 
+                       HorizontalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="JoinUnjoinActivity"
+                            NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+        </ScrollView>
+        
     </ContentPage.Content>
 </ContentPage>

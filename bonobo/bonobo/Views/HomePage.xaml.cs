@@ -1,4 +1,5 @@
 ﻿using bonobo.Models;
+using bonobo.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace bonobo.Views
 
         private async void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var page = new ActivityPage();
+            var page = new ActivityPage(null);
             
             if (Device.RuntimePlatform == Device.Android)
             {

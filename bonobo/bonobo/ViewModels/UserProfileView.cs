@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace bonobo.Models
+namespace bonobo.ViewModels
 {
     public class UserProfileView
     {

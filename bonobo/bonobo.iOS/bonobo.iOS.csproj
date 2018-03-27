@@ -178,4 +178,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\gendericon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\multipleusers.png" />
+  </ItemGroup>
 </Project>
