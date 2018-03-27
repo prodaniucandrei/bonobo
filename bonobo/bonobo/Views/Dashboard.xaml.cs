@@ -108,7 +108,7 @@ namespace bonobo.Views
             Tab_Add.BackgroundColor = Constants.DefaultTabColor;
             Tab_Message.BackgroundColor = Constants.DefaultTabColor;
             Tab_Explore.BackgroundColor = Constants.DefaultTabColor;
-       
+
             var page = new UserInfoPage(null);
             InsertContent.Content = page.Content;
         }

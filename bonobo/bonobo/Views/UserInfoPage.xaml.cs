@@ -19,7 +19,7 @@ namespace bonobo.Views
             InitializeComponent();
 
             //set user profile to currently logged user
-            if(user == null)
+            if (user == null)
             {
                 user = new UserProfileView
                 {
