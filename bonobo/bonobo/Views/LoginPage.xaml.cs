@@ -115,11 +115,11 @@ namespace bonobo.Views
 
                     //navigate to dashboard
                     if (Device.RuntimePlatform == Device.Android) {
-                        Application.Current.MainPage = new Dashboard();
+                        Application.Current.MainPage = new Dashboard(new HomePage());
                     }
                     else if (Device.RuntimePlatform == Device.iOS)
                     {
-                        await Navigation.PushModalAsync(new Dashboard());
+                        await Navigation.PushModalAsync(new Dashboard(new HomePage()));
                     }
                 }
                 else

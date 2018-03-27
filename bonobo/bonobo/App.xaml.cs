@@ -30,7 +30,7 @@ namespace bonobo
             //the page that the app shows when launches
             if(App.UserDatabase.GetUser() != null)
             {
-                MainPage = new Dashboard();
+                MainPage = new Dashboard(new HomePage());
             }
             else
             {

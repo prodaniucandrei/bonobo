@@ -36,14 +36,30 @@ namespace bonobo.Views
             Activities_List.HasUnevenRows = true;
         }
 
-        private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
+        private async void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
         {
-            if (e.Item is Activity activity) DisplayAlert("Following", activity.ActivityName, "Ok", "Cancel");
+            var page = new ActivityPage();
+            
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                Application.Current.MainPage = new Dashboard(page);
+            }
+            else if (Device.RuntimePlatform == Device.iOS)
+            {
+                await Navigation.PushModalAsync(new Dashboard(page));
+            }
         }
 
-        private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async Task ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            Activities_List.SelectedItem = null;
+            //TODO: figure it out
+            if (e.SelectedItem == null)
+            {
+                Activities_List.SelectedItem = null;
+            }
+
+            var activity = e.SelectedItem as Activity;
+            await DisplayAlert("Item Selected", activity.ActivityName, "Ok");
         }
 
         private void ListView_OnRefreshing(object sender, EventArgs e)
@@ -60,6 +76,35 @@ namespace bonobo.Views
         void FilterIcon_Tapped(object sender, EventArgs e)
         {
             //TODO: go to new message page
+        }
+
+        async Task ProfileImageTapped(object sender, EventArgs args)
+        {
+            //TODO: get the info of the clicked user photo
+            UserProfileView user = new UserProfileView
+            {
+                FirstName = "Daenerys",
+                LastName = "Stormborn",
+                Gender = "Female",
+                Birthdate = new DateTime(1993, 3, 21),
+                HeaderImage = "http://hdqwalls.com/wallpapers/game-of-thrones-season-7-drogon-and-khaleesi-im.jpg",
+                ProfileImage = "https://cdn.techjuice.pk/wp-content/uploads/2017/08/daenerys-1024x576.jpg",
+                Tagline = "I was born to rule the Seven Kingdoms, and I will.",
+                ShortDesc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus.",
+                Reviews = 31,
+                Hosted = 9,
+                Joined = 15
+            };
+            var page = new UserInfoPage(user);
+
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                Application.Current.MainPage = new Dashboard(page);
+            }
+            else if (Device.RuntimePlatform == Device.iOS)
+            {
+                await Navigation.PushModalAsync(new Dashboard(page));
+            }
         }
 
         private static IEnumerable<Activity> SeedList(string searchText = null)

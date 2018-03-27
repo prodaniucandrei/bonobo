@@ -12,23 +12,31 @@ namespace bonobo.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class UserInfoPage : ContentPage
 	{
-        public UserInfoPage()
+        bool currentUser = false;
+
+        public UserInfoPage(UserProfileView user)
         {
             InitializeComponent();
-            UserProfileView user = new UserProfileView
+
+            //set user profile to currently logged user
+            if(user == null)
             {
-                FirstName = App.UserDatabase.GetUser().FirstName,
-                LastName = App.UserDatabase.GetUser().LastName,
-                Gender = App.UserDatabase.GetUser().Gender,
-                Birthdate = App.UserDatabase.GetUser().BirthDate,
-                HeaderImage = "http://acephalous.typepad.com/.a/6a00d8341c2df453ef017d3c2bd399970c-500wi",
-                ProfileImage = "https://manofmany.com/wp-content/uploads/2017/07/Jon-Snow-2.jpg",
-                Tagline = "I conquer super villains and make the world a safer place.",
-                ShortDesc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus.",
-                Reviews = 16,
-                Hosted = 11,
-                Joined = 24
-            };
+                user = new UserProfileView
+                {
+                    FirstName = App.UserDatabase.GetUser().FirstName,
+                    LastName = App.UserDatabase.GetUser().LastName,
+                    Gender = App.UserDatabase.GetUser().Gender,
+                    Birthdate = App.UserDatabase.GetUser().BirthDate,
+                    HeaderImage = "http://acephalous.typepad.com/.a/6a00d8341c2df453ef017d3c2bd399970c-500wi",
+                    ProfileImage = "https://manofmany.com/wp-content/uploads/2017/07/Jon-Snow-2.jpg",
+                    Tagline = "I conquer super villains and make the world a safer place.",
+                    ShortDesc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus.",
+                    Reviews = 16,
+                    Hosted = 11,
+                    Joined = 24
+                };
+                currentUser = true;
+            }
 
             Init(user);
         }
@@ -57,7 +65,7 @@ namespace bonobo.Views
             Lbl_Reviews.TextColor = Constants.MainTextColor;
             Lbl_Joined.Text = user.Joined.ToString();
             Lbl_Joined.TextColor = Constants.MainTextColor;
-            Lbl_Hosted.Text =user.Hosted.ToString();
+            Lbl_Hosted.Text = user.Hosted.ToString();
             Lbl_Hosted.TextColor = Constants.MainTextColor;
 
             Lbl_Desc.Text = user.ShortDesc;
@@ -66,8 +74,16 @@ namespace bonobo.Views
             DateTime zeroTime = new DateTime(1, 1, 1);
             TimeSpan span = DateTime.Now - user.Birthdate;
             int years = (zeroTime + span).Year - 1;
-            Lbl_Birthday.Text = "Age: " + years.ToString();
-            Lbl_Gender.Text = "Gender: " + user.Gender;
+            Img_Birthdate.Source = "ageicon.png";
+            Lbl_Birthdate.Text = years.ToString();
+            Img_Gender.Source = "gendericon.png";
+            Lbl_Gender.Text = user.Gender;
+
+            if(currentUser == false)
+            {
+                Lbl_SignOut.IsEnabled = false;
+                Lbl_SignOut.IsVisible = false;
+            }
         }
 
         async void OnTapGestureForSigningOut(object sender, EventArgs args)

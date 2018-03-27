@@ -13,6 +13,7 @@ namespace bonobo.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ExplorePage : ContentPage
 	{
+
         public ExplorePage()
         {
             InitializeComponent();

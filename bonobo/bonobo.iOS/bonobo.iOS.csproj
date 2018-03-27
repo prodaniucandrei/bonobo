@@ -163,4 +163,19 @@
   <ItemGroup>
     <BundleResource Include="Resources\filtericon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\locationicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\usericon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ageicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\dateicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\gendericon.png" />
+  </ItemGroup>
 </Project>

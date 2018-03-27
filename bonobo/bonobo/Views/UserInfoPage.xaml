@@ -66,8 +66,14 @@
                             <Frame.Content>
                                 <StackLayout Padding="0,0,0,0"  Orientation="Horizontal">
                                     <StackLayout HorizontalOptions="StartAndExpand">
-                                        <Label x:Name="Lbl_Gender"/>
-                                        <Label x:Name="Lbl_Birthday"/>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Image x:Name="Img_Gender" />
+                                            <Label x:Name="Lbl_Gender"/>
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Image x:Name="Img_Birthdate" />
+                                            <Label x:Name="Lbl_Birthdate"/>
+                                        </StackLayout>
                                         <!--  profile description  -->
                                         <Label x:Name="Lbl_Desc" />
                                     </StackLayout>

@@ -12,7 +12,8 @@ namespace bonobo.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MessagePage : ContentPage
 	{
-		public MessagePage ()
+
+        public MessagePage ()
 		{
 			InitializeComponent ();
 		}

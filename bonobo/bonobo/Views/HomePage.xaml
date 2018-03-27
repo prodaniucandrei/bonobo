@@ -41,12 +41,19 @@
                                     <Frame Padding="15,15,15,15"   OutlineColor="Gray" BackgroundColor="White">
                                         <Frame.Content>
                                             <StackLayout Padding="10,0,0,0"  Orientation="Horizontal">
-                                                <controls:CircleImage Source="{Binding Image}" 
+                                                <controls:CircleImage x:Name="Img_UserPhoto"
+                                                       Source="{Binding Image}" 
                                                        HeightRequest="60" 
                                                        WidthRequest="60"
                                                        Aspect="AspectFill"
                                                        VerticalOptions="Center" 
-                                                       HorizontalOptions="Start"/>
+                                                       HorizontalOptions="Start">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Tapped="ProfileImageTapped"
+                                                            NumberOfTapsRequired="1" />
+                                                    </Image.GestureRecognizers>
+                                                </controls:CircleImage>
                                                 <StackLayout HorizontalOptions="StartAndExpand">
                                                     <Label Text="{Binding ActivityName}" 
                                                             FontAttributes="Bold" />

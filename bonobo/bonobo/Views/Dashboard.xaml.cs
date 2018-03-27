@@ -13,13 +13,15 @@ namespace bonobo.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Dashboard : ContentPage
 	{
-		public Dashboard ()
+		public Dashboard (ContentPage page)
 		{
 			InitializeComponent ();
-            Init();
+            if(page == null)
+                page = new HomePage();
+            Init(page);
 		}
 
-        void Init()
+        void Init(ContentPage page)
         {
             Row.Height = Constants.RowHeight;
 
@@ -29,13 +31,29 @@ namespace bonobo.Views
             Img_Explore.HeightRequest = Constants.RowHeight;
             Img_Message.HeightRequest = Constants.RowHeight;
 
-            Tab_Home.BackgroundColor = Constants.CurrentTabColor;
+            Tab_Home.BackgroundColor = Constants.DefaultTabColor;
             Tab_Add.BackgroundColor = Constants.DefaultTabColor;
             Tab_Account.BackgroundColor = Constants.DefaultTabColor;
             Tab_Explore.BackgroundColor = Constants.DefaultTabColor;
             Tab_Message.BackgroundColor = Constants.DefaultTabColor;
 
-            var page = new HomePage();
+            var name = page.GetType().Name;
+            switch (name)
+            {
+                case "HomePage":
+                    Tab_Home.BackgroundColor = Constants.CurrentTabColor;
+                    break;
+                case "ExplorePage":
+                    Tab_Explore.BackgroundColor = Constants.CurrentTabColor;
+                    break;
+                case "AddActivityPage":
+                    Tab_Add.BackgroundColor = Constants.CurrentTabColor;
+                    break;
+                case "MessagePage":
+                    Tab_Message.BackgroundColor = Constants.CurrentTabColor;
+                    break;
+            }
+
             InsertContent.Content = page.Content;
         }
 
@@ -90,7 +108,8 @@ namespace bonobo.Views
             Tab_Add.BackgroundColor = Constants.DefaultTabColor;
             Tab_Message.BackgroundColor = Constants.DefaultTabColor;
             Tab_Explore.BackgroundColor = Constants.DefaultTabColor;
-            var page = new UserInfoPage();
+       
+            var page = new UserInfoPage(null);
             InsertContent.Content = page.Content;
         }
     }

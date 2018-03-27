@@ -10,10 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace bonobo.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AddActivityPage : ContentPage
+	public partial class ActivityPage : ContentPage
 	{
-
-        public AddActivityPage ()
+		public ActivityPage ()
 		{
 			InitializeComponent ();
 		}
