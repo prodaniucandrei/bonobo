@@ -6,25 +6,50 @@
 
         <StackLayout VerticalOptions="CenterAndExpand" Padding="5">
             <StackLayout VerticalOptions="Start">
-                <Entry Placeholder="what do you reflect on?"></Entry>
-                <Entry Placeholder="how many people are you looking for?"></Entry>
-            </StackLayout>
-            <StackLayout VerticalOptions="End">
-                <Label Text="what category does it fit in?"></Label>
-                <Picker x:Name="Picker_Category" HorizontalOptions="FillAndExpand">
-                    <Picker.Items>
-                        <x:String>Astronomy</x:String>
-                        <x:String>Books</x:String>
-                        <x:String>Technology</x:String>
-                        <x:String>Travel</x:String>
-                    </Picker.Items>
-                </Picker>
-                <Label Text="when?"></Label>
-                <DatePicker></DatePicker>
-                <Label Text="what else do you want to say about it?"></Label>
+
+                <Label x:Name="Lbl_PageTitle"/>
+
+                <!--  title -->
+                <Label Text="Insert you title here:" FontAttributes="Bold"></Label>
+                <Entry Placeholder="I'm wondering..."></Entry>
+
+                <!--  category -->
+                <StackLayout Orientation="Vertical">
+                    <Label Text="What category does it fit in?" FontAttributes="Bold" VerticalOptions="Center"></Label>
+                    <Picker x:Name="Picker_Category" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                        <Picker.Items>
+                            <x:String>Astronomy</x:String>
+                            <x:String>Books</x:String>
+                            <x:String>Technology</x:String>
+                            <x:String>Travel</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </StackLayout>
+                
+                <!--  date -->
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="Img_Date"/>
+                    <DatePicker></DatePicker>
+                </StackLayout>
+
+                <!--  guests -->
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="Img_Guests"/>
+                    <Entry Placeholder="number of guests"></Entry>
+                </StackLayout>
+
+                <!--  location -->
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="Img_Location"/>
+                    <Entry Placeholder="do you have a place in mind?"></Entry>
+                </StackLayout>
+
+                <!--  short description -->
+                <Label Text="Tell us more about it:" FontAttributes="Bold"></Label>
                 <Editor></Editor>
+                
             </StackLayout>
-            <Button Text="Publish"></Button>
+            <Button Text="Publish" BackgroundColor="#88c7c9"></Button>
         </StackLayout>
 
     </ContentPage.Content>
