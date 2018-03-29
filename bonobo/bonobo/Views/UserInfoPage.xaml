@@ -14,6 +14,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="AUTO" />
                     <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="AUTO" />
                 </Grid.RowDefinitions>
 
                 <!-- header picture -->
@@ -25,7 +26,13 @@
                 VerticalOptions="End" />
 
                 <!--  profile image -->
-                <controls:CircleImage x:Name="Img_ProfilePicture" HorizontalOptions = "Center"/>
+                <controls:CircleImage x:Name="Img_ProfilePicture" HorizontalOptions = "Center">
+                    <controls:CircleImage.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Tapped="OnProfilePictureTap"
+                            NumberOfTapsRequired="1" />
+                    </controls:CircleImage.GestureRecognizers>
+                </controls:CircleImage>
 
                 <!--  profile name  -->
                 <StackLayout Grid.Row="1" Padding="0,50,0,00">
@@ -82,8 +89,18 @@
                         </Frame>
                     </Frame.Content>
                 </Frame>
-          
-                <Label Margin="20,0" Grid.Row="4"
+
+                <!--  take photo button  -->
+                <StackLayout Grid.Row="4" Orientation="Vertical">
+                    <Button x:Name="Btn_TakePhoto" Text="Take a photo!"
+                            VerticalOptions="Start"/>
+                    <Image x:Name="Img_TakePhoto" 
+                           Aspect="Fill"
+                           VerticalOptions="EndAndExpand"/>
+                </StackLayout>
+
+                <!--  sign out  -->
+                <Label Margin="20,0" Grid.Row="5"
                     x:Name="Lbl_SignOut" 
                        Text="Sign Out." 
                        HorizontalTextAlignment="Center" 
