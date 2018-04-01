@@ -22,14 +22,25 @@ namespace bonobo.Views
         public HomePage ()
 		{
             InitializeComponent();
-            Activity_List = new List<Activity>();
             ActivityDto_List = new List<ActivityDto>();
+            Activity_List = new List<Activity>();
             InitAsync();
         }
 
         private async void InitAsync()
         {
-            Activities_List.ItemsSource = await GetActivityListFromServer();
+            //check for internet connection 
+            App.StartCheckIfInternet(Lbl_NoInternet, this);
+            if (!Lbl_NoInternet.IsVisible)
+            {
+                Activities_List.ItemsSource = await GetActivityListFromServer();
+            }
+            else
+            {
+                //TODO: load from local db
+                Activities_List.ItemsSource = SeedList();
+            }
+
             SearchRow.Height = new GridLength(1, GridUnitType.Star);
             ListRow.Height = new GridLength(8, GridUnitType.Star);
 
@@ -72,13 +83,31 @@ namespace bonobo.Views
 
         private async void ListView_OnRefreshing(object sender, EventArgs e)
         {
-            Activities_List.ItemsSource = await GetActivityListFromServer(); ;
+            //if there is internet connection
+            if (!Lbl_NoInternet.IsVisible)
+            {
+                Activities_List.ItemsSource = await GetActivityListFromServer();
+            }
+            else
+            {
+                //TODO: load from local db
+                Activities_List.ItemsSource = SeedList();
+            }
             Activities_List.EndRefresh();
         }
 
         private async void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            Activities_List.ItemsSource = await GetActivityListFromServer(e.NewTextValue);
+            //if there is internet connection
+            if (!Lbl_NoInternet.IsVisible)
+            {
+                Activities_List.ItemsSource = await GetActivityListFromServer(e.NewTextValue);
+            }
+            else
+            {
+                //TODO: load from local db
+                Activities_List.ItemsSource = SeedList();
+            }
         }
 
         void FilterIcon_Tapped(object sender, EventArgs e)
@@ -117,58 +146,59 @@ namespace bonobo.Views
 
         private async Task<IEnumerable<Activity>> GetActivityListFromServer(string searchText = null)
         {
-            Debug.WriteLine("HomePage: GetActivityListFromServer Starts");
+            //make sure the list is not populated from previous refreshing
+            Activity_List.Clear();
 
-            try
+            //if there is internet connection
+            if (!Lbl_NoInternet.IsVisible)
             {
-                Debug.WriteLine("HomePage: GetActivityListFromServer call API");
-                ActivityDto_List = await App.RestService.GetAllActivities();
-            }
-            catch (NullReferenceException)
-            {
-                Debug.WriteLine("HomePage: GetActivityListFromServer NullReferenceE");
-                Activity_List = SeedList();
-                ActivityDto_List = null;
-            }
-            catch (TaskCanceledException)
-            {
-                Debug.WriteLine("HomePage: GetActivityListFromServer TaskCanceledE");
-                Activity_List = SeedList();
-                ActivityDto_List = null;
-            }
-
-            if (ActivityDto_List.Count != 0) {
-                Debug.WriteLine("HomePage: GetActivityListFromServer Count != 0");
-                int i = 0;
-                foreach (ActivityDto a in ActivityDto_List)
+                try
                 {
-                    Debug.WriteLine("HomePage: GetActivityListFromServer a = ", a.ActivityName);
-                    if (a != null)
-                    {
-                        Activity_List.Add(new Activity
-                        {
-                            ActivityName = a.ActivityName,
-                            Category = a.Category,
-                            ShortDescription = a.ShortDescription,
-                            NoPlaces = a.NoPlaces,
-                            Where = a.Where,
-                            When = a.When,
-                            //search for host profile image
-                            Image = "https://placeimg.com/640/480/people/8"
-                        });
-                        Debug.WriteLine("HomePage: GetActivityListFromServer Activity_List[i] = ", Activity_List[i].ActivityName);
-                        i++;
-                    }
+                    ActivityDto_List = await App.RestService.GetAllActivities();
+                }
+                catch (NullReferenceException)
+                {
+                    Activity_List = SeedList();
+                    ActivityDto_List = null;
+                }
+                catch (TaskCanceledException)
+                {
+                    Activity_List = SeedList();
+                    ActivityDto_List = null;
+                }
 
+                if (ActivityDto_List != null)
+                {
+                    foreach (ActivityDto a in ActivityDto_List)
+                    {
+                        if (a != null)
+                        {
+                            Activity_List.Add(new Activity
+                            {
+                                ActivityName = a.ActivityName,
+                                Category = a.Category,
+                                ShortDescription = a.ShortDescription,
+                                NoPlaces = a.NoPlaces,
+                                Where = a.Where,
+                                When = a.When,
+                                //TODO: search for host profile image
+                                Image = "https://placeimg.com/640/480/people/8"
+                            });
+                        }
+
+                    }
+                }
+                else
+                {
+                    Activity_List = SeedList();
                 }
             }
             else
             {
-                Debug.WriteLine("HomePage: GetActivityListFromServer Else Seed");
+                //TODO: load from local db
                 Activity_List = SeedList();
             }
 
-            Debug.WriteLine("HomePage: GetActivityListFromServer END");
             return string.IsNullOrEmpty(searchText) ? Activity_List : Activity_List
                 .Where(c => c.ActivityName.ToLower()
                 .StartsWith(searchText.ToLower()));

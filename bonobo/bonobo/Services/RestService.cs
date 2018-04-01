@@ -144,49 +144,31 @@ namespace bonobo.Data
 
         public async Task<List<ActivityDto>> GetAllActivities()
         {
-            Debug.WriteLine("RestService: GetAllActivities START");
             HttpResponseMessage Response = null;
             var Token = App.TokenDatabase.GetToken();
-            Debug.WriteLine("RestService: GetAllActivities token = ", Token.AccessToken);
             client.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.AccessToken);
-
+           
             var uri = new Uri(string.Format(Constants.GetAllActivitiesURL, string.Empty));
-
-            Debug.WriteLine("RestService: GetAllActivities TRY");
+            
             try
             {
                 Response = await client.GetAsync(uri);
-                Debug.WriteLine("RestService: GetAllActivities Response");
                 if (Response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine("RestService: GetAllActivities Response SUCCES");
+
                     var JsonResult = Response.Content.ReadAsStringAsync().Result;
-                    Debug.WriteLine("RestService: GetAllActivities JsonResult = ", JsonResult);
                     try
                     {
                         List<ActivityDto> list = JsonConvert.DeserializeObject<List<ActivityDto>>(JsonResult);
                         foreach(ActivityDto a in list)
                         {
-                            Debug.WriteLine("RestService: GetAllActivities");
                             if (a.JoinedUsersIds.Count == 0)
                             {
-                                Debug.WriteLine("RestService: GetAllActivities E NULL");
                                 a.JoinedUsersIds.Add(a.ActivityHostId);
                             }
-                            Debug.WriteLine("RestService: GetAllActivities" + a.JoinedUsersIds);
-                            Debug.WriteLine("RestService: GetAllActivities" + a.JoinedUsersIds[0]);
                         }
-                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].ActivityName);
-                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].Category);
-                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].NoPlaces);
-                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].ShortDescription);
-                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].Where);
-                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].When);
-                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].IsHost);
-                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].IsJoined);
-                    
-
+                
                         return list;
                     }
                     catch { return null; }

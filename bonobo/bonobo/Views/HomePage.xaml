@@ -10,66 +10,74 @@
                 <RowDefinition x:Name="SearchRow" />
                 <RowDefinition x:Name="ListRow"/>
             </Grid.RowDefinitions>
-            
+
             <BoxView x:Name="Box_View" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
-            <StackLayout x:Name="TopNavigationBar" Orientation="Horizontal">
-                <SearchBar 
+                <StackLayout x:Name="TopNavigationBar" Orientation="Horizontal">
+                    <SearchBar 
                     x:Name="Search_Bar" 
                     Grid.Row="0" 
                     TextChanged="SearchBar_OnTextChanged" 
                     HorizontalOptions="Start"
                     VerticalOptions="Center"/>
-                <Image x:Name="Img_Filter" Source="filtericon.png"
+                    <Image x:Name="Img_Filter" Source="filtericon.png"
                            HorizontalOptions="End"
                            VerticalOptions="Center"/>
-                <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="FilterIcon_Tapped" />
-                </StackLayout.GestureRecognizers>
-            </StackLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="FilterIcon_Tapped" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
 
-            <ListView x:Name="Activities_List"
-                  Grid.Row="1"
-                  Refreshing="ListView_OnRefreshing"
-                  ItemTapped="ListView_OnItemTapped"
-                  ItemSelected="ListView_OnItemSelected">
-                
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Frame Padding="0,0,0,4">
-                                <Frame.Content>
-                                    <Frame Padding="15,15,15,15"   OutlineColor="Gray" BackgroundColor="White">
-                                        <Frame.Content>
-                                            <StackLayout Padding="10,0,0,0"  Orientation="Horizontal">
-                                                <controls:CircleImage x:Name="Img_UserPhoto"
-                                                       Source="{Binding Image}" 
-                                                       HeightRequest="60" 
-                                                       WidthRequest="60"
-                                                       Aspect="AspectFill"
-                                                       VerticalOptions="Center" 
-                                                       HorizontalOptions="Start">
-                                                    <Image.GestureRecognizers>
-                                                        <TapGestureRecognizer
-                                                            Tapped="ProfileImageTapped"
-                                                            NumberOfTapsRequired="1" />
-                                                    </Image.GestureRecognizers>
-                                                </controls:CircleImage>
-                                                <StackLayout HorizontalOptions="StartAndExpand">
-                                                    <Label Text="{Binding ActivityName}" 
-                                                            FontAttributes="Bold" />
-                                                    <Label Text="{Binding Category}" 
-                                                            TextColor="#88c7c9"/>
-                                                    <Label Text="{Binding NoPlaces}"/>
+                <ListView x:Name="Activities_List"
+                          Grid.Row="1"
+                          Refreshing="ListView_OnRefreshing"
+                          ItemTapped="ListView_OnItemTapped"
+                          ItemSelected="ListView_OnItemSelected">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame Padding="0,0,0,4">
+                                    <Frame.Content>
+                                        <Frame Padding="15,15,15,15"   OutlineColor="Gray" BackgroundColor="White">
+                                            <Frame.Content>
+                                                <StackLayout Padding="10,0,0,0"  Orientation="Horizontal">
+                                                    <controls:CircleImage x:Name="Img_UserPhoto"
+                                                           Source="{Binding Image}" 
+                                                           HeightRequest="60" 
+                                                           WidthRequest="60"
+                                                           Aspect="AspectFill"
+                                                           VerticalOptions="Center" 
+                                                           HorizontalOptions="Start">
+                                                        <Image.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Tapped="ProfileImageTapped"
+                                                                NumberOfTapsRequired="1" />
+                                                        </Image.GestureRecognizers>
+                                                    </controls:CircleImage>
+                                                    <StackLayout HorizontalOptions="StartAndExpand">
+                                                        <Label Text="{Binding ActivityName}" 
+                                                                FontAttributes="Bold" />
+                                                        <Label Text="{Binding Category}" 
+                                                                TextColor="#88c7c9"/>
+                                                        <Label Text="{Binding NoPlaces}"/>
+                                                    </StackLayout>
                                                 </StackLayout>
-                                            </StackLayout>
-                                        </Frame.Content>
-                                    </Frame>
-                                </Frame.Content>
-                            </Frame>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                            </Frame.Content>
+                                        </Frame>
+                                    </Frame.Content>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            
+            <Label x:Name="Lbl_NoInternet"
+                   HorizontalTextAlignment="Center" 
+                   TextColor="White" 
+                   BackgroundColor="Red"
+                   VerticalOptions="End"
+                   HorizontalOptions="Fill"/>
+
         </Grid>
 
     </ContentPage.Content>
