@@ -1,7 +1,9 @@
-﻿using bonobo.Models;
+﻿using bonobo.Dtos;
+using bonobo.Models;
 using bonobo.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,15 +16,20 @@ namespace bonobo.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class HomePage : ContentPage
 	{
-		public HomePage ()
+        private List<Activity> Activity_List;
+        private List<ActivityDto> ActivityDto_List;
+
+        public HomePage ()
 		{
             InitializeComponent();
-            Init();
-            Activities_List.ItemsSource = SeedList();
+            Activity_List = new List<Activity>();
+            ActivityDto_List = new List<ActivityDto>();
+            InitAsync();
         }
 
-        void Init()
+        private async void InitAsync()
         {
+            Activities_List.ItemsSource = await GetActivityListFromServer();
             SearchRow.Height = new GridLength(1, GridUnitType.Star);
             ListRow.Height = new GridLength(8, GridUnitType.Star);
 
@@ -63,15 +70,15 @@ namespace bonobo.Views
             await DisplayAlert("Item Selected", activity.ActivityName, "Ok");
         }
 
-        private void ListView_OnRefreshing(object sender, EventArgs e)
+        private async void ListView_OnRefreshing(object sender, EventArgs e)
         {
-            Activities_List.ItemsSource = SeedList();
+            Activities_List.ItemsSource = await GetActivityListFromServer(); ;
             Activities_List.EndRefresh();
         }
 
-        private void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
+        private async void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            Activities_List.ItemsSource = SeedList(e.NewTextValue);
+            Activities_List.ItemsSource = await GetActivityListFromServer(e.NewTextValue);
         }
 
         void FilterIcon_Tapped(object sender, EventArgs e)
@@ -108,7 +115,66 @@ namespace bonobo.Views
             }
         }
 
-        private static IEnumerable<Activity> SeedList(string searchText = null)
+        private async Task<IEnumerable<Activity>> GetActivityListFromServer(string searchText = null)
+        {
+            Debug.WriteLine("HomePage: GetActivityListFromServer Starts");
+
+            try
+            {
+                Debug.WriteLine("HomePage: GetActivityListFromServer call API");
+                ActivityDto_List = await App.RestService.GetAllActivities();
+            }
+            catch (NullReferenceException)
+            {
+                Debug.WriteLine("HomePage: GetActivityListFromServer NullReferenceE");
+                Activity_List = SeedList();
+                ActivityDto_List = null;
+            }
+            catch (TaskCanceledException)
+            {
+                Debug.WriteLine("HomePage: GetActivityListFromServer TaskCanceledE");
+                Activity_List = SeedList();
+                ActivityDto_List = null;
+            }
+
+            if (ActivityDto_List.Count != 0) {
+                Debug.WriteLine("HomePage: GetActivityListFromServer Count != 0");
+                int i = 0;
+                foreach (ActivityDto a in ActivityDto_List)
+                {
+                    Debug.WriteLine("HomePage: GetActivityListFromServer a = ", a.ActivityName);
+                    if (a != null)
+                    {
+                        Activity_List.Add(new Activity
+                        {
+                            ActivityName = a.ActivityName,
+                            Category = a.Category,
+                            ShortDescription = a.ShortDescription,
+                            NoPlaces = a.NoPlaces,
+                            Where = a.Where,
+                            When = a.When,
+                            //search for host profile image
+                            Image = "https://placeimg.com/640/480/people/8"
+                        });
+                        Debug.WriteLine("HomePage: GetActivityListFromServer Activity_List[i] = ", Activity_List[i].ActivityName);
+                        i++;
+                    }
+
+                }
+            }
+            else
+            {
+                Debug.WriteLine("HomePage: GetActivityListFromServer Else Seed");
+                Activity_List = SeedList();
+            }
+
+            Debug.WriteLine("HomePage: GetActivityListFromServer END");
+            return string.IsNullOrEmpty(searchText) ? Activity_List : Activity_List
+                .Where(c => c.ActivityName.ToLower()
+                .StartsWith(searchText.ToLower()));
+        }
+
+        private static List<Activity> SeedList()
         {
             List<Activity> activities = new List<Activity>
             {
@@ -184,9 +250,7 @@ namespace bonobo.Views
                     Image = "https://placeimg.com/640/480/people/7"},
             };
 
-            return string.IsNullOrEmpty(searchText) ? activities : activities
-                .Where(c => c.ActivityName.ToLower()
-                .StartsWith(searchText.ToLower()));
+            return activities;
         }
     }
 }

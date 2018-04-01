@@ -26,6 +26,7 @@ namespace bonobo.Data
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+        /*******************ACCOUNT-API******************************************************/
 
         //-----------------LOGIN--------------------------------------------------------------
         public async Task<Token> Login(LoginView user)
@@ -34,9 +35,6 @@ namespace bonobo.Data
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             Token response = await PostResponseLogIn(Constants.LoginURL, content);
             Debug.WriteLine("RestService: LogIn token = " + response.AccessToken);
-            DateTime dt = new DateTime();
-            dt = DateTime.Today;
-            response.ExpireDate = dt.AddSeconds(response.ExpireIn);
             return response;
         }
 
@@ -53,7 +51,12 @@ namespace bonobo.Data
                 Debug.WriteLine("RestService: PostResponseLogIn jsonResult = " + jsonResult);
                 var msg= JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonResult);
                 Debug.WriteLine("RestService: PostResponseLogIn token = " + msg["token"]);
-                return new Token(msg["token"]);
+              
+                return new Token
+                {
+                    AccessToken = msg["token"],
+                    ExpireDate = DateTime.Today.AddDays(30),
+                };
             }
             else
             {
@@ -117,20 +120,17 @@ namespace bonobo.Data
                     try
                     {
                         var msg = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonResult);
-                        Debug.WriteLine("RestService: FindUserByEmail msg['birthDate']: " + msg["birthDate"]);
                         DateTime bday = DateTime.ParseExact(msg["birthDate"], "yyyy-MM-ddTHH:mm:ss.fff",
                                        CultureInfo.InvariantCulture);
-
-                        Debug.WriteLine("RestService: FindUserByEmail bday: " + bday);
-
-                        UserDto userdto = new UserDto(
-                            msg["id"],
-                            msg["firstName"],
-                            msg["lastName"],
-                            msg["email"],
-                            bday,
-                            msg["gender"]
-                            );
+                        UserDto userdto = new UserDto
+                        {
+                            RemoteId = msg["id"],
+                            FirstName = msg["firstName"],
+                            LastName = msg["lastName"],
+                            Email = msg["email"],
+                            BirthDate = bday,
+                            Gender = msg["gender"]
+                        };
                         return userdto;
                     }
                     catch { return null; }
@@ -140,46 +140,54 @@ namespace bonobo.Data
             return null;
         }
 
-        //-----------------POST---------------------------------------------------------------
-        public async Task<T> PostResponse<T>(string weburl, string jsonstring) where T : class
-        {
-            var Token = App.TokenDatabase.GetToken();
-            string ContentType = "application/json";
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.AccessToken);
-            try
-            {
-                var Result = await client.PostAsync(weburl, new StringContent(jsonstring, Encoding.UTF8, ContentType));
-                if (Result.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var JsonResult = Result.Content.ReadAsStringAsync().Result;
-                    try
-                    {
-                        var ContentResp = JsonConvert.DeserializeObject<T>(JsonResult);
-                        return ContentResp;
-                    }
-                    catch { return null; }
-                }
-            }
-            catch { return null; }
-            return null;
-        }
+        /*******************ACTIVITY-API*****************************************************/
 
-        //-----------------GET----------------------------------------------------------------
-        public async Task<T> GetResponse<T>(string weburl) where T : class
+        public async Task<List<ActivityDto>> GetAllActivities()
         {
+            Debug.WriteLine("RestService: GetAllActivities START");
+            HttpResponseMessage Response = null;
             var Token = App.TokenDatabase.GetToken();
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.AccessToken);
+            Debug.WriteLine("RestService: GetAllActivities token = ", Token.AccessToken);
+            client.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.AccessToken);
+
+            var uri = new Uri(string.Format(Constants.GetAllActivitiesURL, string.Empty));
+
+            Debug.WriteLine("RestService: GetAllActivities TRY");
             try
             {
-                var Response = await client.GetAsync(weburl);
-                if (Response.StatusCode == System.Net.HttpStatusCode.OK)
+                Response = await client.GetAsync(uri);
+                Debug.WriteLine("RestService: GetAllActivities Response");
+                if (Response.IsSuccessStatusCode)
                 {
+                    Debug.WriteLine("RestService: GetAllActivities Response SUCCES");
                     var JsonResult = Response.Content.ReadAsStringAsync().Result;
-                    Debug.WriteLine("JsonResult: " + JsonResult);
+                    Debug.WriteLine("RestService: GetAllActivities JsonResult = ", JsonResult);
                     try
                     {
-                        var ContentResp = JsonConvert.DeserializeObject<T>(JsonResult);
-                        return ContentResp;
+                        List<ActivityDto> list = JsonConvert.DeserializeObject<List<ActivityDto>>(JsonResult);
+                        foreach(ActivityDto a in list)
+                        {
+                            Debug.WriteLine("RestService: GetAllActivities");
+                            if (a.JoinedUsersIds.Count == 0)
+                            {
+                                Debug.WriteLine("RestService: GetAllActivities E NULL");
+                                a.JoinedUsersIds.Add(a.ActivityHostId);
+                            }
+                            Debug.WriteLine("RestService: GetAllActivities" + a.JoinedUsersIds);
+                            Debug.WriteLine("RestService: GetAllActivities" + a.JoinedUsersIds[0]);
+                        }
+                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].ActivityName);
+                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].Category);
+                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].NoPlaces);
+                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].ShortDescription);
+                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].Where);
+                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].When);
+                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].IsHost);
+                        Debug.WriteLine("RestService: GetAllActivities act1 = " + list[1].IsJoined);
+                    
+
+                        return list;
                     }
                     catch { return null; }
                 }

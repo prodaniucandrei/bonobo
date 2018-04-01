@@ -11,11 +11,5 @@ namespace bonobo.Models
         public string Image { get; set; }
 
         public Category() { } //for the DB controller
-        public Category(string Name, string ShortDescription, string Image)
-        {
-            this.Name = Name;
-            this.ShortDescription = ShortDescription;
-            this.Image = Image;
-        }
     }
 }

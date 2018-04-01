@@ -18,22 +18,5 @@ namespace bonobo.Models
         public string Gender { get; set; }
 
         public User() { } //for the DB controller
-        public User(
-           string remoteid,
-           string firstname,
-           string lastname,
-           string email,
-           string password,
-           DateTime birthdate,
-           string gender)
-        {
-            this.RemoteId = remoteid;
-            this.FirstName = firstname;
-            this.LastName = lastname;
-            this.Email = email;
-            this.Password = password;
-            this.BirthDate = birthdate;
-            this.Gender = gender;
-        }
     }
 }

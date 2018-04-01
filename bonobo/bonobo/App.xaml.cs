@@ -28,7 +28,7 @@ namespace bonobo
             InitializeComponent();
 
             //the page that the app shows when launches
-            if(App.UserDatabase.GetUser() != null)
+            if(App.UserDatabase.GetUser() != null && App.TokenDatabase.GetToken() != null)
             {
                 MainPage = new Dashboard(new HomePage());
             }

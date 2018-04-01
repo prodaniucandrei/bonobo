@@ -60,15 +60,16 @@ namespace bonobo.Views
             else
             {
                 Debug.WriteLine("Register: New User object.");
-                RegisterView user = new RegisterView(
-                    Entry_FirstName.Text,
-                    Entry_LastName.Text,
-                    Entry_Email.Text,
-                    Entry_Password.Text,
-                    Entry_RepeatPassword.Text,
-                    DatePicker_Birthday.Date,
-                    Picker_Gender.SelectedItem.ToString()
-                    );
+                RegisterView user = new RegisterView
+                {
+                    FirstName = Entry_FirstName.Text,
+                    LastName = Entry_LastName.Text,
+                    Email = Entry_Email.Text,
+                    Password = Entry_Password.Text,
+                    ConfirmPassword = Entry_RepeatPassword.Text,
+                    BirthDate = DatePicker_Birthday.Date,
+                    Gender = Picker_Gender.SelectedItem.ToString()
+            };
 
                 Debug.WriteLine("Register: Check if all fields are completed.");
                 if (user.CheckNullInformation())

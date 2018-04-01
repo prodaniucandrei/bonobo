@@ -40,7 +40,10 @@ namespace bonobo.Views
 
         async void SignInProcedure(object sender, EventArgs e)
         {
-            LoginView user = new LoginView(Entry_Username.Text, Entry_Password.Text);
+            LoginView user = new LoginView {
+                Email = Entry_Username.Text,
+                Password = Entry_Password.Text };
+
             if (user.CheckNullInformation())
             {
                 Token result;
@@ -86,25 +89,29 @@ namespace bonobo.Views
                     if (userdto == null)
                     {
                         Debug.WriteLine("Login: Could not retrieve user data from server.");
-                        usr = new User(
-                            user.Email,
-                            user.Email,
-                            user.Email,
-                            user.Email,
-                            user.Password,
-                            DateTime.Now,
-                            user.Email);
+                        usr = new User
+                        {
+                            RemoteId = user.Email,
+                            FirstName = user.Email,
+                            LastName = user.Email,
+                            Email = user.Email,
+                            Password = user.Password,
+                            BirthDate = DateTime.Now,
+                            Gender  = user.Email
+                        };
                     }
                     else
                     {
-                        usr = new User(
-                            userdto.RemoteId,
-                            userdto.FirstName, 
-                            userdto.LastName, 
-                            user.Email, 
-                            user.Password, 
-                            userdto.BirthDate,
-                            userdto.Gender);
+                        usr = new User
+                        {
+                            RemoteId = userdto.RemoteId,
+                            FirstName = userdto.FirstName,
+                            LastName = userdto.LastName,
+                            Email = user.Email,
+                            Password = user.Password,
+                            BirthDate = userdto.BirthDate,
+                            Gender = userdto.Gender
+                        };
                     }
 
                     //make sure previous user is deleted

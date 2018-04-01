@@ -132,6 +132,7 @@ namespace bonobo.Views
             }
         }
 
+
         async void OnTapGestureForSigningOut(object sender, EventArgs args)
         {
             bool result = false;

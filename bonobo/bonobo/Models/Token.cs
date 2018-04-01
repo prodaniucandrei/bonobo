@@ -13,13 +13,8 @@ namespace bonobo.Models
         [PrimaryKey]
         public int Id { get; set; }//for the db
         public string AccessToken { get; set; }//token that the user gets from the server
-        public string ErrorDescription { get; set; }//error from the server, if any
-        public DateTime ExpireDate { get; set; }//date when token is no longer valid    
-        public int ExpireIn { get; set; }    
+        public DateTime ExpireDate { get; set; }//date when token is no longer valid     
 
         public Token() { } //for the DB controller
-        public Token(string token) {
-            this.AccessToken = token;
-        } //for login
     }
 }

@@ -12,21 +12,5 @@ namespace bonobo.Dtos
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; }
-
-        public UserDto(
-           string remoteid,
-           string firstname,
-           string lastname,
-           string email,
-           DateTime birthdate,
-           string gender)
-        {
-            this.RemoteId = remoteid;
-            this.FirstName = firstname;
-            this.LastName = lastname;
-            this.Email = email;
-            this.BirthDate = birthdate;
-            this.Gender = gender;
-        }
     }
 }

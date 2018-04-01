@@ -14,24 +14,6 @@ namespace bonobo.ViewModels
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; }
 
-        public RegisterView(
-            string firstname, 
-            string lastname, 
-            string email, 
-            string password,
-            string confirmpassword,
-            DateTime birthdate,
-            string gender)
-        {
-            this.FirstName = firstname;
-            this.LastName = lastname;
-            this.Email = email;
-            this.Password = password;
-            this.ConfirmPassword = confirmpassword;
-            this.BirthDate = birthdate;
-            this.Gender = gender;
-        }
-
         //check if the variables are corectly set
         public bool CheckNullInformation()
         {

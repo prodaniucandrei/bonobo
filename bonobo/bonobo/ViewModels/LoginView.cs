@@ -10,12 +10,6 @@ namespace bonobo.ViewModels
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public LoginView(string Email, string Password)
-        {
-            this.Email = Email;
-            this.Password = Password;
-        }
-
         //check if the variables are corectly set
         public bool CheckNullInformation()
         {
