@@ -15,9 +15,9 @@ namespace bonobo.Views
 	{
 		public Dashboard (ContentPage page)
 		{
-			InitializeComponent ();
             if(page == null)
                 page = new HomePage();
+            InitializeComponent();
             Init(page);
 		}
 

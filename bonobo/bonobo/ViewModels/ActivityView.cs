@@ -13,7 +13,7 @@ namespace bonobo.ViewModels
         public string Where { get; set; }
         public DateTime When { get; set; }
         public string Image { get; set; }
-        public List<UserProfileView> JoinedUsersList { get; set; }
-        public UserProfileView HostUser { get; set; }
+        public List<string> JoinedUsersListIds { get; set; }
+        public string HostUserId { get; set; }
     }
 }

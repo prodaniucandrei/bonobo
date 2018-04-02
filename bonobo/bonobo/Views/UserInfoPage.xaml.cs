@@ -1,5 +1,6 @@
 ﻿using bonobo.Models;
 using bonobo.ViewModels;
+using bonobo.Helpers;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
@@ -15,34 +16,22 @@ namespace bonobo.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class UserInfoPage : ContentPage
 	{
-        bool currentUser = false;
+        bool loggedUser = false;
 
         public UserInfoPage(UserProfileView user)
         {
             InitializeComponent();
 
-            //set user profile to currently logged user
             if (user == null)
             {
-                user = new UserProfileView
-                {
-                    FirstName = App.UserDatabase.GetUser().FirstName,
-                    LastName = App.UserDatabase.GetUser().LastName,
-                    Gender = App.UserDatabase.GetUser().Gender,
-                    Birthdate = App.UserDatabase.GetUser().BirthDate,
-                    HeaderImage = "http://acephalous.typepad.com/.a/6a00d8341c2df453ef017d3c2bd399970c-500wi",
-                    ProfileImage = "https://manofmany.com/wp-content/uploads/2017/07/Jon-Snow-2.jpg",
-                    Tagline = "I conquer super villains and make the world a safer place.",
-                    ShortDesc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus.",
-                    Reviews = 16,
-                    Hosted = 11,
-                    Joined = 24
-                };
-                currentUser = true;
+                //set user profile to currently logged user
+                user = Helper.GetLoggedUserProfileView();
+                loggedUser = true;
             }
 
             Init(user);
         }
+
 
         void Init(UserProfileView user)
         {
@@ -82,7 +71,7 @@ namespace bonobo.Views
             Img_Gender.Source = "gendericon.png";
             Lbl_Gender.Text = user.Gender;
 
-            if(currentUser == false)
+            if(loggedUser == false)
             {
                 Lbl_SignOut.IsEnabled = false;
                 Lbl_SignOut.IsVisible = false;
@@ -90,6 +79,8 @@ namespace bonobo.Views
 
         }
 
+
+        //Change Profile picture
         async void OnProfilePictureTap(object sender, System.EventArgs e)
         {
             //var response = await DisplayActionSheet("Profile Photo Source", "Cancel", null, "Camera", "Photo Album", "Remove");
@@ -133,6 +124,7 @@ namespace bonobo.Views
         }
 
 
+        //Sign Out
         async void OnTapGestureForSigningOut(object sender, EventArgs args)
         {
             bool result = false;

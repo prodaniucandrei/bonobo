@@ -1,4 +1,6 @@
-﻿using bonobo.ViewModels;
+﻿using bonobo.Dtos;
+using bonobo.ViewModels;
+using bonobo.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -18,56 +20,20 @@ namespace bonobo.Views
         {
             InitializeComponent();
 
-            //set to some default activity
             if (activity == null)
             {
-                activity = new ActivityView
-                {
-                    ActivityTitle = "What would it be like to live on Mars?",
-                    Category = "Astronomy",
-                    ShortDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus.",
-                    NoPlaces = 3,
-                    Where = "Botanical garden",
-                    When = new DateTime(2018, 3, 30),
-                    Image = "http://cdns.yournewswire.com/wp-content/uploads/2016/06/NASA-life-on-Mars-678x381.jpg",
-                    JoinedUsersList = new List<UserProfileView> {
-                        new UserProfileView
-                            {
-                                FirstName = "Daenerys",
-                                LastName = "Stormborn",
-                                Gender = "Female",
-                                Birthdate = new DateTime(1993, 3, 21),
-                                HeaderImage = "http://hdqwalls.com/wallpapers/game-of-thrones-season-7-drogon-and-khaleesi-im.jpg",
-                                ProfileImage = "https://cdn.techjuice.pk/wp-content/uploads/2017/08/daenerys-1024x576.jpg",
-                                Tagline = "I was born to rule the Seven Kingdoms, and I will.",
-                                ShortDesc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus.",
-                                Reviews = 31,
-                                Hosted = 9,
-                                Joined = 15
-                            } },
-                    HostUser = new UserProfileView
-                    {
-                        FirstName = App.UserDatabase.GetUser().FirstName,
-                        LastName = App.UserDatabase.GetUser().LastName,
-                        Gender = App.UserDatabase.GetUser().Gender,
-                        Birthdate = App.UserDatabase.GetUser().BirthDate,
-                        HeaderImage = "http://acephalous.typepad.com/.a/6a00d8341c2df453ef017d3c2bd399970c-500wi",
-                        ProfileImage = "https://manofmany.com/wp-content/uploads/2017/07/Jon-Snow-2.jpg",
-                        Tagline = "I conquer super villains and make the world a safer place.",
-                        ShortDesc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada ultricies arcu nec egestas. Nam porta fermentum aliquam. Nullam tincidunt odio purus.",
-                        Reviews = 16,
-                        Hosted = 11,
-                        Joined = 24
-                    }
-                };
-
+                //set to some default activity
+                activity = Helper.GetDefaultActivity();
             }
 
-            Init(activity);
+            InitAsync(activity);
         }
 
-        void Init(ActivityView activity)
+        async void InitAsync(ActivityView activity)
         {
+            //get user profile who hosts this activity
+            UserProfileView user = await Helper.GetUserProfileViewObj(activity.HostUserId);
+
             //activity picture
             Img_ActivityPicture.Source = activity.Image;
             Img_ActivityPicture.Aspect = Aspect.AspectFill;
@@ -80,7 +46,7 @@ namespace bonobo.Views
             Lbl_Category.FontAttributes = FontAttributes.Italic;
 
             //activity metrics
-            Lbl_Guests.Text =  activity.JoinedUsersList.Count.ToString() + "/" + activity.NoPlaces.ToString();
+            Lbl_Guests.Text =  activity.JoinedUsersListIds.Count.ToString() + "/" + activity.NoPlaces.ToString();
             Img_Guests.Source = "multipleusers.png";
             Lbl_Location.Text = activity.Where;
             Img_Location.Source = "locationicon.png";
@@ -90,10 +56,10 @@ namespace bonobo.Views
 
             //host user profile image and name
             Img_ProfilePicture.Aspect = Aspect.AspectFill;
-            Img_ProfilePicture.Source = activity.HostUser.ProfileImage;
+            Img_ProfilePicture.Source = user.ProfileImage;
             Img_ProfilePicture.HeightRequest = 60;
             Img_ProfilePicture.WidthRequest = 60;
-            Lbl_HostName.Text = activity.HostUser.FirstName + " " + activity.HostUser.LastName;
+            Lbl_HostName.Text = user.FirstName + " " + user.LastName;
 
             //activity description
             Lbl_Desc.Text = activity.ShortDescription;

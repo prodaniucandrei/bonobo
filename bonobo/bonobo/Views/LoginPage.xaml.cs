@@ -18,7 +18,7 @@ namespace bonobo.Views
 	{
 		public LoginPage ()
 		{
-			InitializeComponent (); //initializes all the components in the .xaml file
+			InitializeComponent (); 
             Init();
 		}
 
@@ -44,102 +44,117 @@ namespace bonobo.Views
                 Email = Entry_Username.Text,
                 Password = Entry_Password.Text };
 
-            if (user.CheckNullInformation())
+            //check for InternetConnection before calling the webserver
+            if (!Lbl_NoInternet.IsVisible)
             {
-                Token result;
-                //TODO: check for InternetConnection before calling the webserver
-                //Login call
-                try {
-                    result = await App.RestService.Login(user);
-                } catch(NullReferenceException) {
-                    result = null;
-                } catch (TaskCanceledException) {
-                    result = null;
-                    Debug.WriteLine("TaskCanceledException in Login.");
-                    await DisplayAlert("Login", "Not able to reach server in time.", "Ok");
-                }
-                if(result != null)
+                if (user.CheckNullInformation())
                 {
-                    //make sure previous token is deleted
-                    if(App.TokenDatabase.GetToken() != null)
-                        App.TokenDatabase.DeleteToken(0);
-                    //save token for current user
-                    App.TokenDatabase.SaveToken(result);
-                    Debug.WriteLine("Login: saved token = " + App.TokenDatabase.GetToken().AccessToken);
-                    //retrieve info about the user who logges in
-                    UserDto userdto;
+                    Token result;
                     try
                     {
-                        Debug.WriteLine("Login: user.Email = " + user.Email);
-                        userdto = await App.RestService.FindUserByEmail(new FindUserByEmailViewModel { Email = user.Email });
+                        //Login API call
+                        result = await App.RestService.Login(user);
                     }
                     catch (NullReferenceException)
                     {
-                        userdto = null;
+                        result = null;
                     }
                     catch (TaskCanceledException)
                     {
-                        userdto = null;
-                        Debug.WriteLine("TaskCanceledException in Login.");
+                        result = null;
                         await DisplayAlert("Login", "Not able to reach server in time.", "Ok");
                     }
-                    
-                    User usr;
-                    Debug.WriteLine("Login: userDTO = " + userdto.FirstName + " " + userdto.BirthDate);
-                    if (userdto == null)
+
+                    //if the login was successful
+                    if (result != null)
                     {
-                        Debug.WriteLine("Login: Could not retrieve user data from server.");
-                        usr = new User
+                        //make sure previous token is deleted
+                        if (App.TokenDatabase.GetToken() != null)
+                            App.TokenDatabase.DeleteToken(0);
+                        //save token for current user
+                        App.TokenDatabase.SaveToken(result);
+
+                        //retrieve info about the user who logges in
+                        UserDto userdto;
+                        try
                         {
-                            RemoteId = user.Email,
-                            FirstName = user.Email,
-                            LastName = user.Email,
-                            Email = user.Email,
-                            Password = user.Password,
-                            BirthDate = DateTime.Now,
-                            Gender  = user.Email
-                        };
+                            userdto = await App.RestService.FindUserByEmail(new FindUserByEmailViewModel { Email = user.Email });
+                        }
+                        catch (NullReferenceException)
+                        {
+                            userdto = null;
+                        }
+                        catch (TaskCanceledException)
+                        {
+                            userdto = null;
+                            await DisplayAlert("Login", "Not able to reach server in time.", "Ok");
+                        }
+
+                        //prepare user obj for saving in local db
+                        User usr;
+                        if (userdto == null)
+                        {
+                            await DisplayAlert("Login", "Not able to get user data from server.", "Ok");
+                            //TODO: try to reach server later
+                            usr = new User
+                            {
+                                RemoteId = user.Email,
+                                FirstName = user.Email,
+                                LastName = user.Email,
+                                Email = user.Email,
+                                Password = user.Password,
+                                BirthDate = DateTime.Now,
+                                Gender = user.Email
+                            };
+                        }
+                        else
+                        {
+                            usr = new User
+                            {
+                                RemoteId = userdto.RemoteId,
+                                FirstName = userdto.FirstName,
+                                LastName = userdto.LastName,
+                                Email = user.Email,
+                                Password = user.Password,
+                                BirthDate = userdto.BirthDate,
+                                Gender = userdto.Gender
+                            };
+                        }
+
+                        //make sure previous user is deleted
+                        if (App.UserDatabase.GetUser() != null)
+                            App.UserDatabase.DeleteUser(0);
+                        //save current logged user in local DB
+                        App.UserDatabase.SaveUser(usr);
+
+                        //navigate to dashboard
+                        if (Device.RuntimePlatform == Device.Android)
+                        {
+                            Application.Current.MainPage = new Dashboard(new HomePage());
+                        }
+                        else if (Device.RuntimePlatform == Device.iOS)
+                        {
+                            await Navigation.PushModalAsync(new Dashboard(new HomePage()));
+                        }
                     }
                     else
                     {
-                        usr = new User
-                        {
-                            RemoteId = userdto.RemoteId,
-                            FirstName = userdto.FirstName,
-                            LastName = userdto.LastName,
-                            Email = user.Email,
-                            Password = user.Password,
-                            BirthDate = userdto.BirthDate,
-                            Gender = userdto.Gender
-                        };
-                    }
-
-                    //make sure previous user is deleted
-                    if(App.UserDatabase.GetUser() != null)
-                        App.UserDatabase.DeleteUser(0);
-                    //save current logged user in local DB
-                    App.UserDatabase.SaveUser(usr);
-
-                    //navigate to dashboard
-                    if (Device.RuntimePlatform == Device.Android) {
-                        Application.Current.MainPage = new Dashboard(new HomePage());
-                    }
-                    else if (Device.RuntimePlatform == Device.iOS)
-                    {
-                        await Navigation.PushModalAsync(new Dashboard(new HomePage()));
+                        await DisplayAlert("Login", "Login not correct: wrong username or password.", "Ok");
                     }
                 }
                 else
                 {
-                    await DisplayAlert("Login", "Login not correct: wrong username or password.", "Ok");
+                    await DisplayAlert("Login", "Login not correct: empty username or password.", "Ok");
                 }
             }
             else
             {
-                await DisplayAlert("Login", "Login not correct: empty username or password.", "Ok");
+                await DisplayAlert("Login", "No internet. Cannot reach the server. Please connect in order to login.", "Ok");
             }
         }
 
+
+        //Go to Registration Page
         async void OnTapGestureForRegistration(object sender, EventArgs args)
         {
             if (Device.RuntimePlatform == Device.Android)
@@ -152,6 +167,8 @@ namespace bonobo.Views
             }
         }
 
+
+        //Go to Forgot Passoword Page
         void OnTapGestureForForgotPassword(object sender, EventArgs args)
         {
             //TODO: implement password recovery procedure

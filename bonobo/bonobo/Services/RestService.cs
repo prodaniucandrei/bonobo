@@ -95,49 +95,99 @@ namespace bonobo.Data
         //-----------------FIND-USER-BY-EMAIL-------------------------------------------------
         public async Task<UserDto> FindUserByEmail(FindUserByEmailViewModel model)
         {
-            Debug.WriteLine("RestService: FindUserByEmail email = " + model.Email);
-            HttpResponseMessage Response = null;
-            var Token = App.TokenDatabase.GetToken();
-            Debug.WriteLine("RestService: FindUserByEmail token = " + Token.AccessToken);
-            client.DefaultRequestHeaders.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.AccessToken);
-
-            var uri = new Uri(string.Format(Constants.FindUserByEmailURL, string.Empty));
-            Debug.WriteLine("RestService: FindUserByEmail uri = " + uri);
-            var json = JsonConvert.SerializeObject(model);
-            Debug.WriteLine("RestService: FindUserByEmail json = " + json);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            Debug.WriteLine("RestService: FindUserByEmail content = " + content);
-
-            try
+            if (model.Email != null)
             {
-                //send a POST request to the web service specified by the URI
-                Response = await client.PostAsync(uri, content);
-                if (Response.IsSuccessStatusCode)
+                HttpResponseMessage Response = null;
+                var Token = App.TokenDatabase.GetToken();
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.AccessToken);
+
+                var uri = new Uri(string.Format(Constants.FindUserByEmailURL, string.Empty));
+                var json = JsonConvert.SerializeObject(model);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                try
                 {
-                    var JsonResult = Response.Content.ReadAsStringAsync().Result;
-                    Debug.WriteLine("RestService: FindUserByEmail JsonResult: " + JsonResult);
-                    try
+                    //send a POST request to the web service specified by the URI
+                    Response = await client.PostAsync(uri, content);
+                    if (Response.IsSuccessStatusCode)
                     {
-                        var msg = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonResult);
-                        DateTime bday = DateTime.ParseExact(msg["birthDate"], "yyyy-MM-ddTHH:mm:ss.fff",
-                                       CultureInfo.InvariantCulture);
-                        UserDto userdto = new UserDto
+                        var JsonResult = Response.Content.ReadAsStringAsync().Result;
+                        try
                         {
-                            RemoteId = msg["id"],
-                            FirstName = msg["firstName"],
-                            LastName = msg["lastName"],
-                            Email = msg["email"],
-                            BirthDate = bday,
-                            Gender = msg["gender"]
-                        };
-                        return userdto;
+                            var msg = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonResult);
+                            DateTime bday = DateTime.ParseExact(msg["birthDate"], "yyyy-MM-ddTHH:mm:ss.fff",
+                                           CultureInfo.InvariantCulture);
+                            UserDto userdto = new UserDto
+                            {
+                                RemoteId = msg["id"],
+                                FirstName = msg["firstName"],
+                                LastName = msg["lastName"],
+                                Email = msg["email"],
+                                BirthDate = bday,
+                                Gender = msg["gender"]
+                            };
+                            return userdto;
+                        }
+                        catch { return null; }
                     }
-                    catch { return null; }
                 }
+                catch { return null; }
+                return null;
             }
-            catch { return null; }
-            return null;
+            else
+            {
+                return null;
+            }
+        }
+
+        //-----------------FIND-USER-BY-EMAIL-------------------------------------------------
+        public async Task<UserDto> FindUserById(FindUserByIdViewModel model)
+        {
+            if(model.Id != null)
+            {
+                HttpResponseMessage Response = null;
+                var Token = App.TokenDatabase.GetToken();
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.AccessToken);
+
+                var uri = new Uri(string.Format(Constants.FindUserByIdURL, string.Empty));
+                var json = JsonConvert.SerializeObject(model);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                try
+                {
+                    //send a POST request to the web service specified by the URI
+                    Response = await client.PostAsync(uri, content);
+                    if (Response.IsSuccessStatusCode)
+                    {
+                        var JsonResult = Response.Content.ReadAsStringAsync().Result;
+                        try
+                        {
+                            var msg = JsonConvert.DeserializeObject<Dictionary<string, string>>(JsonResult);
+                            DateTime bday = DateTime.ParseExact(msg["birthDate"], "yyyy-MM-ddTHH:mm:ss.fff",
+                                           CultureInfo.InvariantCulture);
+                            UserDto userdto = new UserDto
+                            {
+                                RemoteId = msg["id"],
+                                FirstName = msg["firstName"],
+                                LastName = msg["lastName"],
+                                Email = msg["email"],
+                                BirthDate = bday,
+                                Gender = msg["gender"]
+                            };
+                            return userdto;
+                        }
+                        catch { return null; }
+                    }
+                }
+                catch { return null; }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /*******************ACTIVITY-API*****************************************************/

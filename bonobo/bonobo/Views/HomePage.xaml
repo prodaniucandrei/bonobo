@@ -50,12 +50,13 @@
                                                            HorizontalOptions="Start">
                                                         <Image.GestureRecognizers>
                                                             <TapGestureRecognizer
+                                                                CommandParameter="{Binding .}"
                                                                 Tapped="ProfileImageTapped"
                                                                 NumberOfTapsRequired="1" />
                                                         </Image.GestureRecognizers>
                                                     </controls:CircleImage>
                                                     <StackLayout HorizontalOptions="StartAndExpand">
-                                                        <Label Text="{Binding ActivityName}" 
+                                                        <Label Text="{Binding ActivityTitle}" 
                                                                 FontAttributes="Bold" />
                                                         <Label Text="{Binding Category}" 
                                                                 TextColor="#88c7c9"/>
