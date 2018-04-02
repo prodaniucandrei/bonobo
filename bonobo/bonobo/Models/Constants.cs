@@ -42,7 +42,7 @@ namespace bonobo.Models
         public static string CreateActivityURL = "http://192.168.0.14:6781/api/activity/createactivity";
         public static string UpdateActivityURL = "http://192.168.0.14:6781/api/activity/updatectivity";
         public static string GetAllActivitiesURL = "http://192.168.0.14:6781/api/activity/getallactivities";
-        public static string GetActivityByIdURL = "http://192.168.0.14:6781/api/activity/getactivitybyid";
+        public static string FindActivityByIdURL = "http://192.168.0.14:6781/api/activity/findactivitybyid";
         public static string GetHostedActivitiesURL = "http://192.168.0.14:6781/api/activity/gethostedactivities";
         public static string GetJoinedActivitiesURL = "http://192.168.0.14:6781/api/activity/getjoinedactivities";
         public static string JoinActivityURL = "http://192.168.0.14:6781/api/activity/joinactivity";

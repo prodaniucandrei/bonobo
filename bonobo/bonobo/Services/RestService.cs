@@ -1,5 +1,6 @@
 ﻿using bonobo.Dtos;
 using bonobo.Models;
+using bonobo.ViewModel;
 using bonobo.ViewModels;
 using Newtonsoft.Json;
 using System;
@@ -38,7 +39,7 @@ namespace bonobo.Data
             return response;
         }
 
-        public async Task<Token> PostResponseLogIn(string weburl, StringContent content) 
+        public async Task<Token> PostResponseLogIn(string weburl, StringContent content)
         {
             HttpResponseMessage response = null;
             var uri = new Uri(string.Format(weburl, string.Empty));
@@ -49,9 +50,9 @@ namespace bonobo.Data
             {
                 var jsonResult = response.Content.ReadAsStringAsync().Result;
                 Debug.WriteLine("RestService: PostResponseLogIn jsonResult = " + jsonResult);
-                var msg= JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonResult);
+                var msg = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonResult);
                 Debug.WriteLine("RestService: PostResponseLogIn token = " + msg["token"]);
-              
+
                 return new Token
                 {
                     AccessToken = msg["token"],
@@ -70,8 +71,8 @@ namespace bonobo.Data
         {
             var uri = Constants.LogoutURL;
             var response = await client.PostAsync(uri, null);
-            if(response.IsSuccessStatusCode)
-                return true; 
+            if (response.IsSuccessStatusCode)
+                return true;
             return false;
         }
 
@@ -141,10 +142,10 @@ namespace bonobo.Data
             }
         }
 
-        //-----------------FIND-USER-BY-EMAIL-------------------------------------------------
+        //-----------------FIND-USER-BY-ID----------------------------------------------------
         public async Task<UserDto> FindUserById(FindUserByIdViewModel model)
         {
-            if(model.Id != null)
+            if (model.Id != null)
             {
                 HttpResponseMessage Response = null;
                 var Token = App.TokenDatabase.GetToken();
@@ -192,15 +193,16 @@ namespace bonobo.Data
 
         /*******************ACTIVITY-API*****************************************************/
 
+        //-----------------GET-ALL-ACTIVITIES-------------------------------------------------
         public async Task<List<ActivityDto>> GetAllActivities()
         {
             HttpResponseMessage Response = null;
             var Token = App.TokenDatabase.GetToken();
             client.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.AccessToken);
-           
+
             var uri = new Uri(string.Format(Constants.GetAllActivitiesURL, string.Empty));
-            
+
             try
             {
                 Response = await client.GetAsync(uri);
@@ -211,15 +213,93 @@ namespace bonobo.Data
                     try
                     {
                         List<ActivityDto> list = JsonConvert.DeserializeObject<List<ActivityDto>>(JsonResult);
-                        foreach(ActivityDto a in list)
+                        foreach (ActivityDto a in list)
                         {
                             if (a.JoinedUsersIds.Count == 0)
                             {
                                 a.JoinedUsersIds.Add(a.ActivityHostId);
                             }
                         }
-                
+
                         return list;
+                    }
+                    catch { return null; }
+                }
+            }
+            catch { return null; }
+            return null;
+        }
+
+
+        //-----------------CREATE-ACTIVITY----------------------------------------------------
+        public async Task<string> CreateActivityAsync(CreateActivityViewModel model)
+        {
+            if (model != null)
+            {
+                HttpResponseMessage Response = null;
+                var Token = App.TokenDatabase.GetToken();
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.AccessToken);
+
+                var uri = new Uri(string.Format(Constants.CreateActivityURL, string.Empty));
+                var json = JsonConvert.SerializeObject(model);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                try
+                {
+                    //send a POST request to the web service specified by the URI
+                    Response = await client.PostAsync(uri, content);
+                    if (Response.IsSuccessStatusCode)
+                    {
+                        var JsonResult = Response.Content.ReadAsStringAsync().Result;
+                        try
+                        {
+                            string msg = JsonConvert.DeserializeObject<string>(JsonResult);
+                            return msg;
+                        }
+                        catch { return null; }
+                    }
+                }
+                catch { return null; }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        //TODO
+        //-----------------GET-ACTIVITY-BY-ID-------------------------------------------------
+        public async Task<ActivityDto> GetActivityById(GetActivityByIdViewModel model)
+        {
+            HttpResponseMessage Response = null;
+            var Token = App.TokenDatabase.GetToken();
+            client.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.AccessToken);
+
+            var uri = new Uri(string.Format(Constants.FindActivityByIdURL, string.Empty));
+            var json = JsonConvert.SerializeObject(model);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            try
+            {
+                //send a POST request to the web service specified by the URI
+                Response = await client.PostAsync(uri, content);
+                if (Response.IsSuccessStatusCode)
+                {
+
+                    var JsonResult = Response.Content.ReadAsStringAsync().Result;
+                    try
+                    {
+                        ActivityDto a = JsonConvert.DeserializeObject<ActivityDto>(JsonResult);
+                        
+                        if (a.JoinedUsersIds.Count == 0)
+                        {
+                            a.JoinedUsersIds.Add(a.ActivityHostId);
+                        }        
+                        return a;
                     }
                     catch { return null; }
                 }

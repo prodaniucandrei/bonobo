@@ -1,4 +1,5 @@
 ﻿using bonobo.Dtos;
+using bonobo.ViewModel;
 using bonobo.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,38 @@ namespace bonobo.Helpers
         }
 
 
+        //------------------------------GET-ACTIVITY-BY-DEFAULT-------------------------------
+        public static async Task<ActivityView> GetActivityById(string ActivityId)
+        {
+            ActivityDto a;
+            if (ActivityId != null)
+            {
+                a = await App.RestService.GetActivityById(new GetActivityByIdViewModel { Id = ActivityId });
+                if(a != null)
+                {
+                    //TODO: construct ActivityView obj
+                    return new ActivityView
+                    {
+                        ActivityTitle = a.ActivityName,
+                        Category = a.Category,
+                        ShortDescription = a.ShortDescription,
+                        NoPlaces = a.NoPlaces,
+                        Where = a.Where,
+                        When = a.When,
+                        Image = "http://cdns.yournewswire.com/wp-content/uploads/2016/06/NASA-life-on-Mars-678x381.jpg",
+                        JoinedUsersListIds = a.JoinedUsersIds,
+                        HostUserId = a.ActivityHostId
+                    };
+                }
+                else
+                {
+                    return GetDefaultActivity();
+                }
+            } 
+            return GetDefaultActivity();
+        }
+
+
         //------------------------------GET-USER-PROFILE-VIEW-OBJ-----------------------------
         public static async Task<UserProfileView> GetUserProfileViewObj(string UserId)
         {
@@ -136,6 +169,21 @@ namespace bonobo.Helpers
                 };
             }
             return user;
+        }
+
+
+        //TODO
+        //------------------------------CHECK-NULL-INFO-FOR-CREATE-ACTIVITY-------------------
+        public static bool CheckNullInformation(CreateActivityViewModel a)
+        {
+            if (a.ActivityName == null ||
+                a.Category == null ||
+                a.ShortDescription == null ||
+                a.When == null ||
+                a.Where == null)
+                return false;
+            else
+                return true;
         }
 
 

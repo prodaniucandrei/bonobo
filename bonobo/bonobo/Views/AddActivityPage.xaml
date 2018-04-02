@@ -7,11 +7,18 @@
         <StackLayout VerticalOptions="CenterAndExpand" Padding="5">
             <StackLayout VerticalOptions="Start">
 
+                <Label x:Name="Lbl_NoInternet" 
+                   HorizontalTextAlignment="Center" 
+                   VerticalOptions="Start"
+                   TextColor="White" 
+                   BackgroundColor="Red"/>
+                
                 <Label x:Name="Lbl_PageTitle"/>
 
                 <!--  title -->
                 <Label Text="Insert you title here:" FontAttributes="Bold"></Label>
-                <Entry Placeholder="I'm wondering..."></Entry>
+                <Entry x:Name="Entry_ActivityTitle"
+                    Placeholder="I'm wondering..."></Entry>
 
                 <!--  category -->
                 <StackLayout Orientation="Vertical">
@@ -29,27 +36,28 @@
                 <!--  date -->
                 <StackLayout Orientation="Horizontal">
                     <Image x:Name="Img_Date"/>
-                    <DatePicker></DatePicker>
+                    <DatePicker x:Name="Picker_Date"></DatePicker>
                 </StackLayout>
 
                 <!--  guests -->
                 <StackLayout Orientation="Horizontal">
                     <Image x:Name="Img_Guests"/>
-                    <Entry Placeholder="number of guests"></Entry>
+                    <Entry x:Name="Entry_Guests" Placeholder="number of guests"></Entry>
                 </StackLayout>
 
                 <!--  location -->
                 <StackLayout Orientation="Horizontal">
                     <Image x:Name="Img_Location"/>
-                    <Entry Placeholder="do you have a place in mind?"></Entry>
+                    <Entry x:Name="Entry_Location"
+                           Placeholder="do you have a place in mind?"></Entry>
                 </StackLayout>
 
                 <!--  short description -->
                 <Label Text="Tell us more about it:" FontAttributes="Bold"></Label>
-                <Editor></Editor>
+                <Editor x:Name="Edit_Description"></Editor>
                 
             </StackLayout>
-            <Button Text="Publish" BackgroundColor="#88c7c9"></Button>
+            <Button Text="Publish" BackgroundColor="#88c7c9" Clicked="PublishActivity" ></Button>
         </StackLayout>
 
     </ContentPage.Content>
